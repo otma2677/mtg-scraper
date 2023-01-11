@@ -1,0 +1,21 @@
+/**
+ *
+ */
+import assert from 'node:assert';
+
+import { tournamentScraper } from '../../../src/tools/mtgo/tournament-scraper';
+
+/**
+ * TESTS
+ */
+describe('tournamentScraper', () => {
+  it('tournamentScraper should be an Array.', async () => {
+    const data = await tournamentScraper(9, 2022);
+    assert.equal(data instanceof Array, true);
+  });
+
+  it('tournamentScraper should have more than 0 links for available date', async () => {
+    const data = await tournamentScraper(9, 2022);
+    assert.equal(data.length > 0, true);
+  });
+});
