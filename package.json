@@ -1,17 +1,38 @@
 {
   "name": "mtg-scraper",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "ts-node ./src/index.ts"
+  "description": "A tiny web scraper to get magic the gathering results from the internet.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eiwosstdma/mtg-scraper"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "private": false,
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "ts-node ./src/index.ts",
+    "build": "tsc",
+    "test": "ts-mocha ./test/**/*.spec.ts"
+  },
+  "keywords": [
+    "magic",
+    "mtg"
+  ],
+  "author": "eiwosstdma <eiwos.studio@gmail.com>",
+  "license": "ISC License",
   "devDependencies": {
+    "@types/jsdom": "^20.0.1",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "eslint": "^8.31.0",
     "ts-node": "^10.9.1",
+    "tsx": "^3.12.2",
     "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "jsdom": "^21.0.0",
+    "mocha": "^10.2.0",
+    "ts-mocha": "^10.0.0"
   }
 }
