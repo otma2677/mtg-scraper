@@ -1,4 +1,4 @@
-import {IDeck, IFilter } from './types';
+import { IDeck, IFilter } from './types';
 
 export const filterer = (deck: IDeck, filter: IFilter) => {
   if (deck.format !== filter.format) return 'unknown';
@@ -24,5 +24,5 @@ export const filterer = (deck: IDeck, filter: IFilter) => {
   if (excludingACard >= 1) return 'unknown';
   if (includingXCards >= 2) return filter.name;
 
-  return 'unknown'
+  return 'unknown';
 };
