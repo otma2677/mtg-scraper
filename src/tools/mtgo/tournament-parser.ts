@@ -133,8 +133,8 @@ export const tournamentParser = async (url: string): Promise<IFullResults> => {
   return {
     tournament,
     deckLists: getTypedDeckList(rawDataScripts, tournament),
-    standings: rawDataScripts.standings as Pick<RawResults, 'standings'>,
-    brackets: rawDataScripts.brackets as Pick<RawResults, 'brackets'>,
+    standings: rawDataScripts.standings as Pick<RawResults, 'standings'> ?? undefined,
+    brackets: rawDataScripts.brackets as Pick<RawResults, 'brackets'> ?? undefined,
     rawData: JSON.stringify(rawDataScripts)
   };
 };
