@@ -1,0 +1,7 @@
+.idea
+node_modules
+.env
+test
+src
+tsconfig.json
+.eslintrc.js

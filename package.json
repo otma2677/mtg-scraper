@@ -1,7 +1,7 @@
 {
-  "name": "mtg-scraper",
+  "name": "mtg-scraper2",
   "version": "1.0.0",
-  "description": "A tiny web scraper to get magic the gathering results from the internet.",
+  "description": "Tiny and easy web scraper for Magic the gathering.",
   "repository": {
     "type": "git",
     "url": "https://github.com/eiwosstdma/mtg-scraper"

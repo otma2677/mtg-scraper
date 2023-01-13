@@ -1,11 +1,19 @@
-import * as buffer from 'buffer';
-import { IncomingMessage } from 'http';
+/**
+ * IMPORTS
+ */
+import { IncomingMessage } from 'node:http';
+import { get } from 'node:https';
+import { join } from 'node:path';
+import { createHash } from 'node:crypto';
 
 /**
- *
+ * CRYPTO
  */
-const { join } = require('node:path');
-const { get } = require('node:https');
+export const generateUniqueID = (strToHash: string) => {
+  const H = createHash('md5');
+  const res = H.update(strToHash);
+  return res.digest('hex');
+};
 
 /**
  * Path
@@ -35,7 +43,3 @@ export const superFetch = async (url: string): Promise<string> => {
   const result = await fetch(url);
   return await result.text();
 };
-
-/**
- *
- */
