@@ -8,7 +8,9 @@ import { tournamentScraper } from '../../../src/tools/mtgo/tournament-scraper';
 /**
  * TESTS
  */
-describe('tournamentScraper', () => {
+describe('tournamentScraper', function() {
+  this.timeout(5000);
+
   it('tournamentScraper should be an Array.', async () => {
     const data = await tournamentScraper(9, 2022);
     assert.equal(data instanceof Array, true);

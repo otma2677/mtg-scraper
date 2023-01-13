@@ -40,4 +40,26 @@ describe('Test tournamentParser against a legacy showcase', function() {
 
     assert.deepStrictEqual(result.deckLists instanceof Array, true);
   });
+
+  it('should test if there is standings (true)', async () => {
+    const result = await legacyShowCase;
+
+    assert.deepStrictEqual(typeof result.standings, 'object');
+  });
+
+  it('should test if there is bracketrs (true)', async () => {
+    const result = await legacyShowCase;
+
+    assert.deepStrictEqual(typeof result.brackets, 'object');
+  });
+
+  it('should test if deckList is deep and structured', async () => {
+    const result = await legacyShowCase;
+
+    assert.deepStrictEqual(result.deckLists[0].deck_name, 'unknown');
+    assert.deepStrictEqual(result.deckLists[0].format, 'legacy');
+    assert.deepStrictEqual(typeof result.deckLists[0].main_cards[0].quantity, 'number');
+    assert.deepStrictEqual(typeof result.deckLists[0].main_cards[0].type, 'string');
+    assert.deepStrictEqual(typeof result.deckLists[0].main_cards[0].cost, 'number');
+  });
 });
