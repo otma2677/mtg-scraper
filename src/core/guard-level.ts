@@ -1,7 +1,7 @@
 /**
  * EXPORTS
  */
-export const guardLevelOfPlay = (url: string) => {
+export const guardLevelOfPlay = (url: string): string => {
   const possibleTypes = [
     'league',
     'preliminary',
@@ -16,7 +16,7 @@ export const guardLevelOfPlay = (url: string) => {
   const currentType = url.split('/').at(-1)?.split('-')[1];
   const isTypeExisting = possibleTypes.find(t => t === currentType);
 
-  if (isTypeExisting) return currentType;
+  if (isTypeExisting) return currentType as string;
 
   if (currentType === 'showcase' || currentType === 'eternal' || currentType === 'super') {
     const secondWord = url.split('/').at(-1)?.split('-')[2];
