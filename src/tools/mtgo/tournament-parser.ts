@@ -46,7 +46,10 @@ const getMainDeckList = (deck: RawDeckList) => {
   for (const card of rawMainCards.deck_cards) {
     const aCard: ICard = {
       name: card.card_attributes.name,
-      quantity: card.quantity
+      quantity: card.quantity,
+      cost: card.card_attributes.cost,
+      color: card.card_attributes.color,
+      type: card.card_attributes.type
     };
 
     cards.push(aCard);
@@ -65,7 +68,10 @@ const getSideDeckList = (deck: RawDeckList) => {
   for (const card of rawMainCards.deck_cards) {
     const aCard: ICard = {
       name: card.card_attributes.name,
-      quantity: card.quantity
+      quantity: card.quantity,
+      cost: card.card_attributes.cost,
+      color: card.card_attributes.color,
+      type: card.card_attributes.type
     };
 
     cards.push(aCard);
