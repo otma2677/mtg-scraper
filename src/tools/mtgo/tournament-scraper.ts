@@ -14,5 +14,5 @@ export const tournamentScraper = async (month: number, year: number) => {
   const document = new JSDOM(data).window.document;
   const listOfElements = Array.from(document.querySelectorAll('.decklists-item'));
 
-  return listOfElements.map(element => 'https://www.mtgo.com/en/'+element.firstElementChild?.getAttribute('href'));
+  return listOfElements.map(element => 'https://www.mtgo.com'+element.firstElementChild?.getAttribute('href'));
 };
