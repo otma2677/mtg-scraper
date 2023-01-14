@@ -13,6 +13,7 @@ describe('tournamentScraper', function() {
 
   it('tournamentScraper should be an Array.', async () => {
     const data = await tournamentScraper(9, 2022);
+
     assert.equal(data instanceof Array, true);
   });
 
