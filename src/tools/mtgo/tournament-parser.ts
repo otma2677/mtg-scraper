@@ -121,7 +121,7 @@ export const tournamentParser = async (url: string): Promise<IFullResults> => {
   const year = Number(getYearFromURL(url));
   const month = Number(getMonthFromURL(url));
   const platform = url.split('.')[1];
-  const totalPlayers = rawDataScripts.decks.length;
+  const totalPlayers = rawDataScripts?.decks?.length;
   const sub_id = generateUniqueID(url);
 
   const tournament: ITournament = {
