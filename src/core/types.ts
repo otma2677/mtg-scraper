@@ -20,6 +20,10 @@ export interface IDeck {
   sub_id: string;
   unique_id?: string;
   tournament_id: string;
+
+  tournament_link?: string;
+
+  tournament_in_time?: number;
   player_name: string;
   format: string;
   level_of_play: string;
@@ -34,6 +38,7 @@ export interface ITournament {
   name: string;
   unique_id?: string;
   link: string;
+  in_time: number;
   month: number;
   year: number;
   format: string;

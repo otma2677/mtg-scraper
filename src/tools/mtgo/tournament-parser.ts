@@ -58,6 +58,27 @@ const getMainDeckList = (deck: RawDeckList) => {
   return cards;
 };
 
+const getDate = (tournamentLink: string): { month: string, year: string, day: string } => {
+  const arrOfSegment = tournamentLink.split('/').at(-1);
+  const lastSegmentSplit = arrOfSegment?.split('-');
+  const isLeague = lastSegmentSplit?.at(1);
+
+  if (isLeague === 'league') {
+    return {
+      month: lastSegmentSplit?.at(3) as string,
+      year: lastSegmentSplit?.at(2) as string,
+      day: lastSegmentSplit?.at(4) as string,
+    };
+  } else {
+    const rawDay = lastSegmentSplit?.at(-1);
+    return {
+      month: lastSegmentSplit?.at(-2) as string,
+      year: lastSegmentSplit?.at(-3) as string,
+      day: rawDay?.slice(0, 1) as string
+    };
+  }
+};
+
 const getSideDeckList = (deck: RawDeckList) => {
   const subDeck = deck.deck;
   const rawMainCards = subDeck.find(l => l.sb === true);
@@ -86,7 +107,7 @@ const getTypedDeckList = (data: RawResults, tournament: ITournament): Array<IDec
   for (const deckList of data.decks) {
     const main: Array<ICard> = getMainDeckList(deckList);
     const side: Array<ICard> = getSideDeckList(deckList);
-
+    const dates = getDate(tournament.link);
 
     const list: IDeck = {
       sub_id: String(deckList.loginid),
@@ -97,7 +118,9 @@ const getTypedDeckList = (data: RawResults, tournament: ITournament): Array<IDec
       level_of_play: tournament.level_of_play,
       deck_name: 'unknown',
       main_cards: main,
-      side_cards: side
+      side_cards: side,
+      tournament_link: tournament.link + '#deck_' + deckList.player,
+      tournament_in_time: new Date(dates.year+dates.month+dates.day).getTime()
     };
 
     typedDeckLists.push(list);
@@ -114,18 +137,21 @@ export const tournamentParser = async (url: string): Promise<IFullResults> => {
   const fullData = new JSDOM(data);
   // const document = fullData.window.document;
   const rawDataScripts = getRawDeckListsScript(fullData.window);
+  const dates = getDate(url);
 
   const name = url.split('/').at(-1) as string;
   const format = guardFormat(url);
   const levelOfPlay = guardLevelOfPlay(url);
-  const year = Number(getYearFromURL(url));
-  const month = Number(getMonthFromURL(url));
+  const year = Number(dates.year);
+  const month = Number(dates.month);
+  const times = new Date(dates.year+dates.month+dates.day).getTime();
   const platform = url.split('.')[1];
   const totalPlayers = rawDataScripts?.decks?.length;
   const sub_id = generateUniqueID(url);
 
   const tournament: ITournament = {
     name,
+    in_time: times,
     link: url,
     format,
     level_of_play: levelOfPlay,
