@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert';
 import { generateUniqueID } from '../../../src/core/utils';
-import { tournamentParser } from '../../../src/tools/mtgo/tournament-parser';
+import { tournamentParser, getDate } from '../../../src/tools/mtgo/tournament-parser';
 
 /**
  *
@@ -12,11 +12,21 @@ describe('Test tournamentParser against a legacy showcase', function() {
   this.timeout(5000);
   const urlLegacyShowCase = 'https://www.mtgo.com/en/mtgo/decklist/legacy-showcase-challenge-2022-06-2612434036';
   const legacyShowCase = tournamentParser(urlLegacyShowCase);
+  const timeForLegacyChallenge = new Date('2022-06-26');
+  const dateGetted = getDate(urlLegacyShowCase);
+
+  it('should be 26', async () => {
+    assert.deepStrictEqual(dateGetted.day, 26);
+  });
+
+  it('should compare getdate function', async () => {
+    assert.deepStrictEqual(new Date(`${dateGetted.year}-${dateGetted.month}-${dateGetted.day}`).getTime(), timeForLegacyChallenge.getTime());
+  });
 
   it('should send back an OBJ with a tournament OBJ which we want to check', async () => {
     const result = await legacyShowCase;
 
-    assert.deepStrictEqual(typeof result.tournament.in_time, 'number');
+    assert.deepStrictEqual(result.tournament.in_time, timeForLegacyChallenge.getTime());
   });
 
   it('should send back an OBJ with a big string which contains a long string name rawdata', async () => {

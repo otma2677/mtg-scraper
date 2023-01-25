@@ -58,7 +58,7 @@ const getMainDeckList = (deck: RawDeckList) => {
   return cards;
 };
 
-const getDate = (tournamentLink: string): { month: string, year: string, day: string } => {
+export const getDate = (tournamentLink: string): { month: string, year: string, day: string } => {
   const arrOfSegment = tournamentLink.split('/').at(-1);
   const lastSegmentSplit = arrOfSegment?.split('-');
   const isLeague = lastSegmentSplit?.at(1);
@@ -74,9 +74,11 @@ const getDate = (tournamentLink: string): { month: string, year: string, day: st
     return {
       month: lastSegmentSplit?.at(-2) as string,
       year: lastSegmentSplit?.at(-3) as string,
-      day: rawDay?.slice(0, 1) as string
+      day: rawDay?.slice(0, 2) as string
     };
   }
+
+
 };
 
 const getSideDeckList = (deck: RawDeckList) => {
