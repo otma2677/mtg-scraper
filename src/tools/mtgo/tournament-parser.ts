@@ -122,7 +122,7 @@ const getTypedDeckList = (data: RawResults, tournament: ITournament): Array<IDec
       main_cards: main,
       side_cards: side,
       tournament_link: tournament.link + '#deck_' + deckList.player,
-      tournament_in_time: new Date(dates.year+dates.month+dates.day).getTime()
+      tournament_in_time: new Date(`${dates.year}-${dates.month}-${dates.day}`).getTime()
     };
 
     typedDeckLists.push(list);
@@ -146,7 +146,7 @@ export const tournamentParser = async (url: string): Promise<IFullResults> => {
   const levelOfPlay = guardLevelOfPlay(url);
   const year = Number(dates.year);
   const month = Number(dates.month);
-  const times = new Date(dates.year+dates.month+dates.day).getTime();
+  const times = new Date(`${dates.year}-${dates.month}-${dates.day}`).getTime();
   const platform = url.split('.')[1];
   const totalPlayers = rawDataScripts?.decks?.length;
   const sub_id = generateUniqueID(url);
