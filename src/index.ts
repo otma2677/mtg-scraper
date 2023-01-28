@@ -11,7 +11,7 @@ export {
   RawResults
 } from './core/types';
 
-export { tournamentParser } from './tools/mtgo/tournament-parser';
+export { tournamentParser, getDate } from './tools/mtgo/tournament-parser';
 export { tournamentScraper } from './tools/mtgo/tournament-scraper';
 export { generateUniqueID } from './core/utils';
 export { guardFormat } from './core/guard-format';
