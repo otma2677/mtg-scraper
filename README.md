@@ -54,7 +54,7 @@ You can quickly generate a unique ID like tourneys/decklist do have by using the
 ```typescript
 import { generateUniqueID } from './mtg-scraper2';
 
-const data = generateUniqueID('Some string to hash');
+const data = generateUniqueID('Some string to hash'); // return a 32 characters long string
 ```
 
 You can check if a given string is equal to a format name or "level of play" name.
