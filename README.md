@@ -6,6 +6,10 @@ At the very moment, only magic the gathering online is targeted by the library.
 
 We will also add a support for Zod pretty soon, to get a better experiences with types.
 
+# How to install
+You just need to use npm.
+`npm i mtg-scraper2`
+
 # API
 - [Links to tourneys](#links-to-tourneys)
 - [Result of a tournament](#result-of-tournament)
