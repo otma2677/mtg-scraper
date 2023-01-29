@@ -8,7 +8,9 @@ We will also add a support for Zod pretty soon, to get a better experiences with
 
 # How to install
 You just need to use npm.
-`npm i mtg-scraper2`
+```pwsh
+npm i mtg-scraper2
+```
 
 # API
 - [Links to tourneys](#links-to-tourneys)
