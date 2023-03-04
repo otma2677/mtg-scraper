@@ -5,3 +5,4 @@ test
 src
 tsconfig.json
 .eslintrc.js
+examples
