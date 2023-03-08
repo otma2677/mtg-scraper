@@ -6,6 +6,9 @@ At the very moment, only magic the gathering online is targeted by the library.
 
 We will also add a support for Zod pretty soon, to get a better experiences with types.
 
+# Examples
+You can look at examples of how to use the project directly at [examples](./examples/README.md)
+
 # How to install
 You just need to use npm.
 ```pwsh

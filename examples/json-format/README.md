@@ -1,3 +1,13 @@
 # Example with JSON
-Here there is an example in JavaScript and TypeScript (soon) 
-using the scraper and saving all the produced data in JSON.
+This is an example that allows you to scrape/parse MTGO data and saves everything
+in the JSON format at the root of the computer/server within the following structure;
+- /{homedir}/data
+  - /results
+    - /modern
+    - /legacy
+    - /pioneer
+    - /pauper
+    - /vintage
+    - /standard
+  - /settings
+  - /errors
