@@ -5,7 +5,7 @@ const { join } = require('node:path');
 const { access, mkdir, readFile, writeFile } = require('node:fs/promises');
 const { homedir } = require('node:os');
 
-const { tournamentParser, tournamentScraper } = require('mtg-scraper2');
+const { MTGOTournamentParser, MTGOTournamentScraper } = require('mtg-scraper2');
 
 /**
  * RUN
@@ -21,10 +21,9 @@ const { tournamentParser, tournamentScraper } = require('mtg-scraper2');
       settings.tournaments = settings.tournaments.slice(Math.floor(length-length*0.8), length);
     }
 
-    const tournaments = await tournamentScraper();
+    const tournaments = await MTGOTournamentScraper();
     await addTournaments(settings, tournaments);
     await scrapeLastTournaments(settings, 500);
-
     await setSetting(settings);
 
     console.log('Closing');
@@ -48,7 +47,8 @@ async function scrapeLastTournaments(setting, sleepTime) {
 
   for (const tournament of unScrapedTournaments) {
     try {
-      await createMetadata(tournament.name);
+      const result = await MTGOTournamentParser(tournament);
+      await createMetadata(result);
       tournament.scraped = true;
     } catch(err) {
       await writeError(err);

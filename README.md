@@ -28,9 +28,9 @@ month and year input.
 If you want to get all tournament of september 2022 you have to do it as follows;
 
 ```typescript
-import { tournamentScraper } from './mtg-scraper2';
+import { MTGOTournamentScraper } from './mtg-scraper2';
 
-const linksOfTournaments = await tournamentScraper(9, 2022);
+const linksOfTournaments = await MTGOTournamentScraper(9, 2022);
 
 console.log(linksOfTournaments); // [ 'first link', 'second link', ...]
 ```
@@ -40,9 +40,9 @@ If you have a link of a magic the gathering online tournament to scrap, you can 
 the tournamentParser with the given link as follows;
 
 ```typescript
-import { tournamentParser } from './mtg-scraper2';
+import { MTGOTournamentParser } from './mtg-scraper2';
 
-const tournamentData = await tournamentParser('url-of-the-tournament');
+const tournamentData = await MTGOTournamentParser('url-of-the-tournament');
 
 console.log(tournamentData);
 ```
