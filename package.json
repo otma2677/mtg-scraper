@@ -1,6 +1,6 @@
 {
   "name": "mtg-scraper2",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Tiny and easy web scraper for Magic the gathering.",
   "repository": {
     "type": "git",

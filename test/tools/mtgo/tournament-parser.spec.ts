@@ -2,8 +2,8 @@
  *
  */
 import assert from 'node:assert';
-import { generateUniqueID } from '../../../src/core/utils';
-import { tournamentParser, getDate } from '../../../src/tools/mtgo/tournament-parser';
+import { generateUniqueID, getDate } from '../../../src/core/utils';
+import { tournamentParser } from '../../../src/tools/mtgo/tournament-parser';
 
 /**
  *

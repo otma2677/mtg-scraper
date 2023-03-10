@@ -7,6 +7,30 @@ import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 
 /**
+ *
+ */
+export const getDate = (tournamentLink: string): { month: string, year: string, day: string } => {
+  const arrOfSegment = tournamentLink.split('/').at(-1);
+  const lastSegmentSplit = arrOfSegment?.split('-');
+  const isLeague = lastSegmentSplit?.at(1);
+
+  if (isLeague === 'league') {
+    return {
+      month: lastSegmentSplit?.at(3) as string,
+      year: lastSegmentSplit?.at(2) as string,
+      day: lastSegmentSplit?.at(4) as string,
+    };
+  } else {
+    const rawDay = lastSegmentSplit?.at(-1);
+    return {
+      month: lastSegmentSplit?.at(-2) as string,
+      year: lastSegmentSplit?.at(-3) as string,
+      day: rawDay?.slice(0, 2) as string
+    };
+  }
+};
+
+/**
  * CRYPTO
  */
 export const generateUniqueID = (strToHash: string) => {
