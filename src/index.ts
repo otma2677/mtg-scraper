@@ -11,6 +11,16 @@ export {
   RawResults
 } from './core/types';
 
+export {
+  cardSchema,
+  deckSchema,
+  filterSchema,
+  tournamentSchema,
+  fullResultsSchema,
+  rawDeckListSchema,
+  rawResultsSchema,
+} from './core/schemas';
+
 export { tournamentParser as MTGOTournamentParser } from './tools/mtgo/tournament-parser';
 export { tournamentScraper as MTGOTournamentScraper } from './tools/mtgo/tournament-scraper';
 export { generateUniqueID, getDate, superFetch } from './core/utils';
