@@ -19,6 +19,7 @@ npm i mtg-scraper2
 - [Links to tourneys](#links-to-tourneys)
 - [Result of a tournament](#result-of-tournament)
 - [Utilities](#utilities)
+- [Filters (Archetypes)](#filters)
 - [Types](#types)
 
 ### Links to tourneys
@@ -73,7 +74,39 @@ guardFormat('pioneer'); // return 'pioneer'
 
 guardLevelOfPlay('hhhaaa'); // return 'unknown'
 guardLevelOfPlay('preliminary'); // return 'preliminary'
+```
 
+### Filters
+Once you've had save all you deck lists, you can filter them to get their archetype.
+You need filters using the following format;
+```typescript
+interface IFilter {
+  id?: string | number;
+  name: string;
+  format: string;
+  includes: Array<ICard>;
+  excludes: Array<ICard>;
+}
+```
+
+The ID is not used in the process but could exist for your databases schemas.
+
+From there you can then use your filters with the "filterer" function, like as follow;
+
+```typescript
+import { filterer } from './filterer';
+import { IDeck, IFilter } from './types';
+
+const lists: Array<IDeck> = [ /** Decklists .. */ ];
+const filters: Array<IFilter> = [ /** Filters .. */ ];
+
+for (const list of lists)
+  for (const filter of filters)
+    list.name = filterer(list, filter);
+
+/**
+ * The rest of your code.
+ */
 ```
 
 ### Types
