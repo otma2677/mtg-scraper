@@ -26,3 +26,4 @@ export { tournamentScraper as MTGOTournamentScraper } from './tools/mtgo/tournam
 export { generateUniqueID, getDate, superFetch } from './core/utils';
 export { guardFormat } from './core/guard-format';
 export { guardLevelOfPlay } from './core/guard-level';
+export { guardPlatform } from './core/guard-platform';
