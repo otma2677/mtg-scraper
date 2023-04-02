@@ -15,8 +15,7 @@ export interface IFilter {
 
 export interface IDeck {
   login_id: string;
-  unique_id: string;
-  tournament_id: string;
+  tournament_name: string;
   player_name: string;
   format: string;
   level_of_play: string;
@@ -27,7 +26,6 @@ export interface IDeck {
 
 export interface ITournament {
   original_id: string;
-  unique_id: string;
   name: string;
   link: string;
   format: string;
@@ -36,7 +34,7 @@ export interface ITournament {
   total_players: number;
 }
 
-export interface IFullResults {
+export interface IFullResult {
   tournament: ITournament;
   deckLists: Array<IDeck>;
   standings?: Pick<RawResults, 'standings'>;
