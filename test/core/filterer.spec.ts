@@ -10,15 +10,16 @@ import { IDeck, IFilter } from '../../src/core/types';
  */
 describe('Filterer function', () => {
   const deck: IDeck = {
+    login_id: 'afkbzeifezf',
+    tournament_name: 'hello',
     deck_name: 'unknown',
     player_name: 'newbie',
-    sub_id: '79846513203',
     format: 'modern',
     level_of_play: 'league',
-    tournament_id: '123456',
     main_cards: [
       { name: 'ragavan', quantity: 4 },
-      { name: 'murktide', quantity: 4 }
+      { name: 'murktide', quantity: 4 },
+      { name: 'island', quantity: 4 }
     ],
     side_cards: [
       { name: 'tre', quantity: 1 }
@@ -33,7 +34,8 @@ describe('Filterer function', () => {
       format: 'modern',
       includes: [
         { name: 'ragavan', quantity: 4 },
-        { name: 'murktide', quantity: 4 }
+        { name: 'murktide', quantity: 4 },
+        { name: 'island', quantity: 4 }
       ],
       excludes: []
     };
