@@ -67,3 +67,65 @@ export const superFetch = async (url: string): Promise<string> => {
   const result = await fetch(url);
   return await result.text();
 };
+
+/**
+ * CHECKERS
+ */
+export const checkURLFormat = (url: string): string => {
+  const possibleTypes = [
+    'vintage',
+    'legacy',
+    'modern',
+    'pioneer',
+    'standard',
+    'pauper'
+  ] as const;
+
+  const currentType = url.split('/').at(-1)?.split('-')[0];
+  const isTypeCorrect = possibleTypes.find(t => t === currentType);
+
+  if (isTypeCorrect) return currentType as string;
+
+  return 'unknown';
+};
+
+export const checkURLLevelOfPlay = (url: string): string => {
+  const possibleTypes = [
+    'league',
+    'preliminary',
+    'challenge',
+    'premier',
+    'showcase-challenge',
+    'showcase-qualifier',
+    'eternal-weekend',
+    'super-qualifier',
+  ] as const;
+
+  const currentType = url.split('/').at(-1)?.split('-')[1];
+  const isTypeExisting = possibleTypes.find(t => t === currentType);
+
+  if (isTypeExisting) return currentType as string;
+
+  if (currentType === 'showcase' || currentType === 'eternal' || currentType === 'super') {
+    const secondWord = url.split('/').at(-1)?.split('-')[2];
+
+    return `${currentType}-${secondWord}`;
+  }
+
+  return 'unknown';
+};
+
+export const checkURLPlatform = (url: string): string => {
+  const possibleTypes = [
+    'mtgo'
+  ] as const;
+
+  const newURL = new URL(url);
+
+  if (newURL.host === 'mtgo.com')
+    return 'mtgo';
+  else if (newURL.host === 'magic.gg')
+    return 'mtgg';
+  else
+    return 'unknown';
+};
