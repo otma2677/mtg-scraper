@@ -9,7 +9,7 @@ import { createHash } from 'node:crypto';
 /**
  *
  */
-export const getDate = (tournamentLink: string): { month: string, year: string, day: string } => {
+export const getDateFromLink = (tournamentLink: string): { month: string, year: string, day: string } => {
   const arrOfSegment = tournamentLink.split('/').at(-1);
   const lastSegmentSplit = arrOfSegment?.split('-');
   const isLeague = lastSegmentSplit?.at(1);
@@ -116,16 +116,12 @@ export const checkURLLevelOfPlay = (url: string): string => {
 };
 
 export const checkURLPlatform = (url: string): string => {
-  const possibleTypes = [
-    'mtgo'
-  ] as const;
-
   const newURL = new URL(url);
 
   if (newURL.host === 'mtgo.com')
     return 'mtgo';
-  else if (newURL.host === 'magic.gg')
-    return 'mtgg';
+  else if (newURL.host === 'www.mtgo.com')
+    return 'www.mtgo';
   else
     return 'unknown';
 };
