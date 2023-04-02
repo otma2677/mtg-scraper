@@ -3,7 +3,7 @@
  */
 export {
   IDeck,
-  IFullResults,
+  IFullResult,
   ITournament,
   ICard,
   IFilter,
@@ -11,19 +11,8 @@ export {
   RawResults
 } from './core/types';
 
-export {
-  cardSchema,
-  deckSchema,
-  filterSchema,
-  tournamentSchema,
-  fullResultsSchema,
-  rawDeckListSchema,
-  rawResultsSchema,
-} from './core/schemas';
-
-export { tournamentParser as MTGOTournamentParser } from './tools/mtgo/tournament-parser';
-export { tournamentScraper as MTGOTournamentScraper } from './tools/mtgo/tournament-scraper';
-export { generateUniqueID, getDate, superFetch } from './core/utils';
-export { guardFormat } from './guards/guard-format';
-export { guardLevelOfPlay } from './guards/guard-level';
-export { guardPlatform } from './guards/guard-platform';
+export { MTGOTournamentParser } from './tools/mtgo/tournament-parser';
+export { MTGOTournamentScraper } from './tools/mtgo/tournament-scraper';
+export { generateUniqueID, superFetch, checkURLLevelOfPlay, checkURLFormat, checkURLPlatform, getDateFromLink } from './core/utils';
+export { guardCard, guardFullResult, guardTournament, guardDeck, guardFilter } from './core/guards';
+export { filterer } from './core/filterer';

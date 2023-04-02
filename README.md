@@ -1,4 +1,10 @@
 # mtg-scraper
+
+> **Warning**
+> 
+> Breaking changes in between 2.2.0 && 3.0.0
+
+
 Mtg scraper is a tiny web scraper to gather magic the gathering tournaments results and aggregate the data
 to make it easily disposable.
 
@@ -112,8 +118,7 @@ for (const list of lists)
 ### Types
 
 ```typescript
-interface ICard {
-  id?: string | number;
+export interface ICard {
   name: string;
   quantity: number;
   color?: string;
@@ -121,23 +126,16 @@ interface ICard {
   type?: string;
 }
 
-interface IFilter {
-  id?: string | number;
+export interface IFilter {
   name: string;
   format: string;
   includes: Array<ICard>;
   excludes: Array<ICard>;
 }
 
-interface IDeck {
-  id?: string | number;
-  sub_id: string;
-  unique_id?: string;
-  tournament_id: string;
-
-  tournament_link?: string;
-
-  tournament_in_time?: number;
+export interface IDeck {
+  login_id: string;
+  tournament_name: string;
   player_name: string;
   format: string;
   level_of_play: string;
@@ -146,22 +144,17 @@ interface IDeck {
   deck_name: string;
 }
 
-interface ITournament {
-  id?: string | number;
-  sub_id: string;
+export interface ITournament {
+  original_id: string;
   name: string;
-  unique_id?: string;
   link: string;
-  in_time: number;
-  month: number;
-  year: number;
   format: string;
   platform: string;
   level_of_play: string;
   total_players: number;
 }
 
-interface IFullResults {
+export interface IFullResult {
   tournament: ITournament;
   deckLists: Array<IDeck>;
   standings?: Pick<RawResults, 'standings'>;
@@ -169,7 +162,7 @@ interface IFullResults {
   rawData: string;
 }
 
-interface RawDeckList {
+export interface RawDeckList {
   player: string;
   loginid: number;
   deck: Array<{
@@ -189,7 +182,7 @@ interface RawDeckList {
   }>
 }
 
-interface RawResults {
+export interface RawResults {
   _id: string;
   event_name: string;
   date: string;
@@ -223,7 +216,6 @@ interface RawResults {
     }>
   }>;
 }
-
 ```
 
 # License

@@ -7,7 +7,7 @@ import { superFetch } from '../../core/utils';
 /**
  *
  */
-export const tournamentScraper = async (month: number, year: number) => {
+export const MTGOTournamentScraper = async (month: number, year: number) => {
   const url = `https://www.mtgo.com/en/mtgo/decklists/${year}/${month}`;
   const data = await superFetch(url);
 
