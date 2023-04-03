@@ -26,6 +26,7 @@ npm i mtg-scraper2
 - [Result of a tournament](#result-of-tournament)
 - [Utilities](#utilities)
 - [Filters (Archetypes)](#filters)
+- [Type guards](#guards)
 - [Types](#types)
 
 ### Links to tourneys
@@ -67,19 +68,23 @@ import { generateUniqueID } from './mtg-scraper2';
 const data = generateUniqueID('Some string to hash'); // return a 32 characters long string
 ```
 
-You can check if a given string is equal to a format name or "level of play" name.
-All available formats are pauper, standard, pioneer, modern, legacy, vintage.
-All type of play are league, preliminary, challenge, premier, showcase-challenge,
-showcase-qualifier, eternal-weekend, super-qualifier
+You can also check some information based on an URL, the format, the platform and
+the level of play;
 
 ```typescript
-import { guardFormat, guardLevelOfPlay } from './mtg-scraper2';
+import { checkURLFormat, checkURLPlatform, checkURLLevelOfPlay } from './utils';
 
-guardFormat('lalalal'); // return 'unknown'
-guardFormat('pioneer'); // return 'pioneer'
+const link1 = 'https://www.mtgo.com/en/mtgo/decklist/legacy-challenge-32-2023-04-0112538310';
+const link2 = 'linkwedontknowwellyet'
 
-guardLevelOfPlay('hhhaaa'); // return 'unknown'
-guardLevelOfPlay('preliminary'); // return 'preliminary'
+console.log(checkURLFormat(link1)); // 'legacy'
+console.log(checkURLFormat(link2)); // 'unknown'
+
+console.log(checkURLPlatform(link1)); // 'www.mtgo'
+console.log(checkURLPlatform(link2)); // 'unknown'
+
+console.log(checkURLLevelOfPlay(link1)); // 'challenge'
+console.log(checkURLLevelOfPlay(link2)); // 'unknown'
 ```
 
 ### Filters
@@ -114,6 +119,22 @@ for (const list of lists)
  * The rest of your code.
  */
 ```
+
+### Guards
+You can check any non-raw type with functions dedicated to that which will take an obj as 
+an input and then return a boolean;
+
+```typescript
+import { guardCard } from './guards';
+
+const card1 = { name: 'Murktide regent', quantity: 1 };
+const card2 = { unknownProp: null, quantity: '1' };
+
+console.log(guardCard(card1)) // true
+console.log(guardCard(card2)) // false
+```
+
+The same behavior works for Filters, Decks, Tournaments and FullResults.
 
 ### Types
 
