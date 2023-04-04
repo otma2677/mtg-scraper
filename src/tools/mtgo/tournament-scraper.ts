@@ -8,7 +8,10 @@ import { superFetch } from '../../core/utils';
  *
  */
 export const MTGOTournamentScraper = async (month: number, year: number) => {
-  const url = `https://www.mtgo.com/en/mtgo/decklists/${year}/${month}`;
+  const m = (month +1).toString();
+  const goodMonth = m.length === 1 ? `0${m}`: m;
+
+  const url = `https://www.mtgo.com/en/mtgo/decklists/${year}/${goodMonth}`;
   const data = await superFetch(url);
 
   const document = new JSDOM(data).window.document;
