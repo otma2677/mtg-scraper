@@ -22,6 +22,15 @@ export interface IDeck {
   main_cards: Array<ICard>;
   side_cards: Array<ICard>;
   deck_name: string;
+  standing?: {
+    rank: number;
+    name: string;
+    GWP: number;
+    OGWP: number;
+    OMWP: number;
+    loginid: number;
+    points: number;
+  };
 }
 
 export interface ITournament {

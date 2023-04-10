@@ -64,6 +64,8 @@ const getTypedDeckList = (data: RawResults, tournament: ITournament): Array<IDec
   for (const deckList of data.decks) {
     const main: Array<ICard> = getMainDeckList(deckList);
     const side: Array<ICard> = getSideDeckList(deckList);
+    const standIndex = data.standings?.findIndex(stand => stand.loginid === deckList.loginid);
+    const standing = data.standings === undefined ? undefined : data.standings[standIndex as number];
 
     const list: IDeck = {
       login_id: String(deckList.loginid),
@@ -74,6 +76,7 @@ const getTypedDeckList = (data: RawResults, tournament: ITournament): Array<IDec
       main_cards: main,
       side_cards: side,
       deck_name: 'unknown',
+      standing
     };
 
     typedDeckLists.push(list);
