@@ -68,8 +68,8 @@ describe('Test utils functions', () => {
       'https://mtgo.com/en/mtgo/decklist/pauper-league-2023-03-31',
     ];
 
-    assert.equal(checkURLPlatform(links[0]), 'www.mtgo');
-    assert.equal(checkURLPlatform(links[1]), 'www.mtgo');
+    assert.equal(checkURLPlatform(links[0]), 'mtgo');
+    assert.equal(checkURLPlatform(links[1]), 'mtgo');
     assert.equal(checkURLPlatform(links[2]), 'mtgo');
   });
 });
