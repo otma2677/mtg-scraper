@@ -2,7 +2,15 @@
  *
  */
 import assert from 'node:assert';
-import { checkURLFormat, checkURLLevelOfPlay, checkURLPlatform, generateUniqueID, getDateFromLink } from '../../src/core/utils';
+import {
+  checkFormat, checkLevelOfPlay,
+  checkPlatform,
+  checkURLFormat,
+  checkURLLevelOfPlay,
+  checkURLPlatform,
+  generateUniqueID,
+  getDateFromLink
+} from '../../src/core/utils';
 
 /**
  *
@@ -71,5 +79,43 @@ describe('Test utils functions', () => {
     assert.equal(checkURLPlatform(links[0]), 'mtgo');
     assert.equal(checkURLPlatform(links[1]), 'mtgo');
     assert.equal(checkURLPlatform(links[2]), 'mtgo');
+  });
+
+  it('checkFormat', () => {
+    const links = [
+      'modern',
+      'marden',
+      'lorgacy',
+      'legacy'
+    ];
+
+    assert.equal(checkFormat(links[0]), true);
+    assert.equal(checkFormat(links[1]), false);
+    assert.equal(checkFormat(links[2]), false);
+    assert.equal(checkFormat(links[3]), true);
+  });
+
+  it('checkPlatform', () => {
+    const links = [
+      'mtgo',
+      'taefzf',
+    ];
+
+    assert.equal(checkPlatform(links[0]), true);
+    assert.equal(checkPlatform(links[1]), false);
+  });
+
+  it('checkLevelOfPlay', () => {
+    const links = [
+      'league',
+      'largue',
+      'shawcase',
+      'showcase-qualifier'
+    ];
+
+    assert.equal(checkLevelOfPlay(links[0]), true);
+    assert.equal(checkLevelOfPlay(links[1]), false);
+    assert.equal(checkLevelOfPlay(links[2]), false);
+    assert.equal(checkLevelOfPlay(links[3]), true);
   });
 });
