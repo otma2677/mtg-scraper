@@ -71,6 +71,27 @@ export const superFetch = async (url: string): Promise<string> => {
 /**
  * CHECKERS
  */
+export type formatType =
+  'vintage' |
+  'legacy' |
+  'modern' |
+  'pioneer' |
+  'standard' |
+  'pauper' |
+  'limited';
+
+export const checkFormat = (str: any): str is formatType => {
+  return (
+    str === 'vintage' ||
+    str === 'legacy' ||
+    str === 'modern' ||
+    str === 'pioneer' ||
+    str === 'standard' ||
+    str === 'pauper' ||
+    str === 'limited'
+  );
+};
+
 export const checkURLFormat = (url: string): string => {
   const possibleTypes = [
     'vintage',
@@ -78,7 +99,8 @@ export const checkURLFormat = (url: string): string => {
     'modern',
     'pioneer',
     'standard',
-    'pauper'
+    'pauper',
+    'limited'
   ] as const;
 
   const currentType = url.split('/').at(-1)?.split('-')[0];
@@ -89,6 +111,33 @@ export const checkURLFormat = (url: string): string => {
   return 'unknown';
 };
 
+export type levelOfPlayType =
+  'league' |
+  'preliminary' |
+  'challenge' |
+  'premier' |
+  'showcase-challenge' |
+  'showcase-qualifier' |
+  'showcase-open' |
+  'eternal-weekend' |
+  'super-qualifier' |
+  'last-chance';
+
+export const checkLevelOfPlay = (str: any): str is levelOfPlayType => {
+  return (
+    str === 'league' ||
+    str === 'preliminary' ||
+    str === 'challenge' ||
+    str === 'premier' ||
+    str === 'showcase-challenge' ||
+    str === 'showcase-qualifier' ||
+    str === 'showcase-open' ||
+    str === 'eternal-weekend' ||
+    str === 'super-qualifier' ||
+    str === 'last-chance'
+  );
+};
+
 export const checkURLLevelOfPlay = (url: string): string => {
   const possibleTypes = [
     'league',
@@ -97,8 +146,10 @@ export const checkURLLevelOfPlay = (url: string): string => {
     'premier',
     'showcase-challenge',
     'showcase-qualifier',
+    'showcase-open',
     'eternal-weekend',
     'super-qualifier',
+    'last-chance'
   ] as const;
 
   const currentType = url.split('/').at(-1)?.split('-')[1];
@@ -115,13 +166,18 @@ export const checkURLLevelOfPlay = (url: string): string => {
   return 'unknown';
 };
 
+export type platformType = 'mtgo';
+
+export const checkPlatform = (str: any): str is platformType => {
+  return (
+    str === 'mtgo'
+  );
+};
 export const checkURLPlatform = (url: string): string => {
   const newURL = new URL(url);
 
-  if (newURL.host === 'mtgo.com')
+  if (newURL.host === 'mtgo.com' || newURL.host === 'www.mtgo.com')
     return 'mtgo';
-  else if (newURL.host === 'www.mtgo.com')
-    return 'www.mtgo';
   else
     return 'unknown';
 };

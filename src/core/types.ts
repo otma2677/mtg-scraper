@@ -25,9 +25,9 @@ export interface IDeck {
   standing?: {
     rank: number;
     name: string;
-    GWP: number;
-    OGWP: number;
-    OMWP: number;
+    gwp: number;
+    ogwp: number;
+    omwp: number;
     loginid: number;
     points: number;
   };
@@ -85,9 +85,9 @@ export interface RawResults {
   standings?: Array<{
     rank: number;
     name: string;
-    GWP: number;
-    OGWP: number;
-    OMWP: number;
+    gwp: number;
+    ogwp: number;
+    omwp: number;
     loginid: number;
     points: number;
   }>
