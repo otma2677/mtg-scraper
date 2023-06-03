@@ -11,6 +11,10 @@ import { ICard, IDeck, IFullResult, ITournament, RawDeckList, RawResults } from 
 const getRawDeckListsScript = (data: DOMWindow): RawResults => {
   const rawScripts = data.document.scripts;
   const rawDeckLists = rawScripts[1]?.textContent?.split('window.MTGO.decklists.data =')[1].split(';')[0] as string;
+
+  if (rawDeckLists === undefined)
+    throw new TypeError('Cannot obtain raw deck list from dom window element.');
+
   return JSON.parse(rawDeckLists.toLowerCase()) as RawResults;
 };
 

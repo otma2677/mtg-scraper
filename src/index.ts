@@ -8,8 +8,28 @@ export {
   ICard,
   IFilter,
   RawDeckList,
+  RawStanding,
+  RawBracket,
+  RawDeck,
+  RawCard,
+  RawPlacement,
   RawResults
 } from './core/types';
+
+export {
+  guardCard,
+  guardFullResult,
+  guardTournament,
+  guardDeck,
+  guardFilter,
+  guardRawBracket,
+  guardRawStanding,
+  guardRawPlacement,
+  guardRawDeckList,
+  guardRawDeck,
+  guardRawCard,
+  guardRawResult
+} from './core/guards';
 
 export {
   generateUniqueID,
@@ -28,5 +48,4 @@ export {
 
 export { MTGOTournamentParser } from './tools/mtgo/tournament-parser';
 export { MTGOTournamentScraper } from './tools/mtgo/tournament-scraper';
-export { guardCard, guardFullResult, guardTournament, guardDeck, guardFilter } from './core/guards';
 export { filterer } from './core/filterer';

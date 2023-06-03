@@ -51,22 +51,55 @@ export interface IFullResult {
   rawData: string;
 }
 
+export interface RawCard {
+  card_attributes: {
+    type: string;
+    set: string;
+    color: string;
+    card_code: number;
+    rarity: string;
+    name: string;
+    cost: number;
+  };
+  quantity: number;
+}
+
+export interface RawDeck {
+  sb: boolean;
+  deck_cards: Array<RawCard>
+}
+
 export interface RawDeckList {
   player: string;
   loginid: number;
-  deck: Array<{
-    sb: boolean;
-    deck_cards: Array<{
-      card_attributes: {
-        type: string;
-        set: string;
-        color: string;
-        card_code: number;
-        rarity: string;
-        name: string;
-        cost: number;
-      };
-      quantity: number;
+  deck: Array<RawDeck>
+}
+
+export interface RawPlacement {
+  loginid: number;
+  rank: number;
+}
+
+export interface RawStanding {
+  rank: number;
+  name: string;
+  gwp: number;
+  ogwp: number;
+  omwp: number;
+  loginid: number;
+  points: number;
+}
+
+export interface RawBracket {
+  index: number;
+  matches: Array<{
+    players: Array<{
+      loginid: number;
+      player: string;
+      seeding: number;
+      wins: number;
+      losses: number;
+      winner: boolean;
     }>
   }>
 }
@@ -78,30 +111,7 @@ export interface RawResults {
   event_type: string;
   decks: Array<RawDeckList>;
   subheader?: string;
-  placement: Array<{
-    loginid: number;
-    rank: number;
-  }>;
-  standings?: Array<{
-    rank: number;
-    name: string;
-    gwp: number;
-    ogwp: number;
-    omwp: number;
-    loginid: number;
-    points: number;
-  }>
-  brackets?: Array<{
-    index: number;
-    matches: Array<{
-      players: Array<{
-        loginid: number;
-        player: string;
-        seeding: number;
-        wins: number;
-        losses: number;
-        winner: boolean;
-      }>
-    }>
-  }>;
+  placement: Array<RawPlacement>;
+  standings?: Array<RawStanding>
+  brackets?: Array<RawBracket>;
 }
