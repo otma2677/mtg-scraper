@@ -3,8 +3,6 @@
  */
 import { IncomingMessage } from 'node:http';
 import { get } from 'node:https';
-import { join } from 'node:path';
-import { createHash } from 'node:crypto';
 
 /**
  *
@@ -29,20 +27,6 @@ export const getDateFromLink = (tournamentLink: string): { month: string, year: 
     };
   }
 };
-
-/**
- * CRYPTO
- */
-export const generateUniqueID = (strToHash: string) => {
-  const H = createHash('md5');
-  const res = H.update(strToHash);
-  return res.digest('hex');
-};
-
-/**
- * Path
- */
-export const basePath = () => join(process.cwd());
 
 /**
  * Fast fetch for non 18+ node

@@ -2,8 +2,9 @@
  * IMPORTS
  */
 import { DOMWindow, JSDOM } from 'jsdom';
-import { superFetch, generateUniqueID, checkURLFormat, checkURLLevelOfPlay } from '../../core/utils';
+import { superFetch, checkURLFormat, checkURLLevelOfPlay } from '../../core/utils';
 import { ICard, IDeck, IFullResult, ITournament, RawDeckList, RawResults } from '../../core/types';
+import { guardDeck } from '../../core/guards';
 
 /**
  *
@@ -64,7 +65,7 @@ const getRawDeckListsScript = (data: DOMWindow): RawResults => {
 
 const getDeckList = (deck: RawDeckList, side = false) => {
   const sub = deck.deck;
-  const mainCards = sub.find(l => side ? l.sb : !l.sb);
+  const mainCards = sub.find(l => l.sb === side);
   const cards: Array<ICard> = [];
 
   if (mainCards === undefined)
@@ -107,6 +108,7 @@ const getTypedDeckList = (data: RawResults, tournament: ITournament): Array<IDec
     typedDeckLists.push(list);
   }
 
+  const validDeck = guardDeck(typedDeckLists);
   return typedDeckLists;
 };
 
@@ -126,7 +128,6 @@ export const MTGOTournamentParser = async (url: string): Promise<IFullResult> =>
   const levelOfPlay = checkURLLevelOfPlay(url);
   const platform = url.split('.')[1];
   const totalPlayers = rawDataScripts?.decks?.length;
-  const sub_id = generateUniqueID(url);
 
   const tournament: ITournament = {
     name,
@@ -135,7 +136,7 @@ export const MTGOTournamentParser = async (url: string): Promise<IFullResult> =>
     level_of_play: levelOfPlay,
     platform,
     total_players: totalPlayers,
-    original_id: sub_id
+    original_id: rawDataScripts._id
   };
 
   return {

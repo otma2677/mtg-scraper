@@ -8,7 +8,6 @@ import {
   checkURLFormat,
   checkURLLevelOfPlay,
   checkURLPlatform,
-  generateUniqueID,
   getDateFromLink
 } from '../../src/core/utils';
 
@@ -33,16 +32,6 @@ describe('Test utils functions', () => {
       year: '2023',
       day: '31'
     });
-  });
-
-  it('generateUniqueID: Should generate strict-length string identifier based on md5', () => {
-    const words = [ 'apple', 'orange', 'https://www.mtgo.com/en/mtgo/decklist/modern-league-2023-03-31' ];
-
-    assert.equal(generateUniqueID(words[0]).length, generateUniqueID(words[1]).length);
-    assert.equal(generateUniqueID(words[2]).length, generateUniqueID(words[1]).length);
-    assert.notEqual(generateUniqueID(words[0]), generateUniqueID(words[1]));
-    assert.notEqual(generateUniqueID(words[2]), generateUniqueID(words[1]));
-    assert.equal(generateUniqueID(words[0]).length, 32);
   });
 
   it('checkURLFormat', () => {

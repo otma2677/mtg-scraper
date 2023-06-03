@@ -32,7 +32,6 @@ export {
 } from './core/guards';
 
 export {
-  generateUniqueID,
   superFetch,
   checkURLLevelOfPlay,
   checkURLFormat,
