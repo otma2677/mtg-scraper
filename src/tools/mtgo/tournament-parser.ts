@@ -4,7 +4,7 @@
 import { DOMWindow, JSDOM } from 'jsdom';
 import { superFetch, checkURLFormat, checkURLLevelOfPlay } from '../../core/utils';
 import { ICard, IDeck, IFullResult, ITournament, RawDeckList, RawResults } from '../../core/types';
-import { guardDeck } from '../../core/guards';
+import { guardDeck, guardFullResult, guardTournament } from '../../core/guards';
 
 /**
  *
@@ -19,7 +19,7 @@ function getRawDeckListsScript (data: DOMWindow): RawResults {
   return JSON.parse(rawDeckLists.toLowerCase()) as RawResults;
 }
 
-function getDeckList (deck: RawDeckList, side = false) {
+function getCardsSideOrMain (deck: RawDeckList, side = false) {
   const sub = deck.deck;
   const mainCards = sub.find(l => l.sb === side);
   const cards: Array<ICard> = [];
@@ -44,8 +44,8 @@ function getTypedDeckList (data: RawResults, tournament: ITournament): Array<IDe
   const typedDeckLists: Array<IDeck> = [];
 
   for (const deckList of data.decks) {
-    const main: Array<ICard> = getDeckList(deckList);
-    const side: Array<ICard> = getDeckList(deckList, true);
+    const main: Array<ICard> = getCardsSideOrMain(deckList);
+    const side: Array<ICard> = getCardsSideOrMain(deckList, true);
     const standIndex = data.standings?.findIndex(stand => stand.loginid === deckList.loginid);
     const standing = data.standings === undefined ? undefined : data.standings[standIndex as number];
 
@@ -64,7 +64,10 @@ function getTypedDeckList (data: RawResults, tournament: ITournament): Array<IDe
     typedDeckLists.push(list);
   }
 
-  const validDeck = guardDeck(typedDeckLists);
+  const isValid = guardDeck(typedDeckLists);
+  if (!isValid)
+    throw new TypeError('Cannot get cards/decklists.');
+
   return typedDeckLists;
 }
 
@@ -95,11 +98,18 @@ export async function MTGOTournamentParser (url: string): Promise<IFullResult> {
     original_id: rawDataScripts._id
   };
 
-  return {
+  const obj = {
     tournament,
     deckLists: getTypedDeckList(rawDataScripts, tournament),
     standings: rawDataScripts.standings as Pick<RawResults, 'standings'> ?? undefined,
     brackets: rawDataScripts.brackets as Pick<RawResults, 'brackets'> ?? undefined,
     rawData: JSON.stringify(rawDataScripts)
   };
+
+  const isValidObject = guardFullResult(obj);
+  if (!isValidObject)
+    throw new Error(`Tournament metadata of ${url} are corrupted. Cannot generate data.`);
+
+
+  return obj;
 }
