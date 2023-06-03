@@ -9,7 +9,7 @@ import { guardDeck } from '../../core/guards';
 /**
  *
  */
-const getRawDeckListsScript = (data: DOMWindow): RawResults => {
+function getRawDeckListsScript (data: DOMWindow): RawResults {
   const rawScripts = data.document.scripts;
   const rawDeckLists = rawScripts[1]?.textContent?.split('window.MTGO.decklists.data =')[1].split(';')[0] as string;
 
@@ -17,53 +17,9 @@ const getRawDeckListsScript = (data: DOMWindow): RawResults => {
     throw new TypeError('Cannot obtain raw deck list from dom window element.');
 
   return JSON.parse(rawDeckLists.toLowerCase()) as RawResults;
-};
+}
 
-// const getMainDeckList = (deck: RawDeckList) => {
-//   const subDeck = deck.deck;
-//   const rawMainCards = subDeck.find(l => !l.sb);
-//   const cards: Array<ICard> = [];
-//
-//   if (rawMainCards === undefined) throw new TypeError('Deck list content is undefined, data cannot be scraped.');
-//
-//   for (const card of rawMainCards.deck_cards) {
-//     const aCard: ICard = {
-//       name: card.card_attributes.name,
-//       quantity: card.quantity,
-//       cost: card.card_attributes.cost,
-//       color: card.card_attributes.color,
-//       type: card.card_attributes.type
-//     };
-//
-//     cards.push(aCard);
-//   }
-//
-//   return cards;
-// };
-//
-// const getSideDeckList = (deck: RawDeckList) => {
-//   const subDeck = deck.deck;
-//   const rawMainCards = subDeck.find(l => l.sb);
-//   const cards: Array<ICard> = [];
-//
-//   if (rawMainCards === undefined) throw new TypeError('Deck list content is undefined, data cannot be scraped.');
-//
-//   for (const card of rawMainCards.deck_cards) {
-//     const aCard: ICard = {
-//       name: card.card_attributes.name,
-//       quantity: card.quantity,
-//       cost: card.card_attributes.cost,
-//       color: card.card_attributes.color,
-//       type: card.card_attributes.type
-//     };
-//
-//     cards.push(aCard);
-//   }
-//
-//   return cards;
-// };
-
-const getDeckList = (deck: RawDeckList, side = false) => {
+function getDeckList (deck: RawDeckList, side = false) {
   const sub = deck.deck;
   const mainCards = sub.find(l => l.sb === side);
   const cards: Array<ICard> = [];
@@ -82,9 +38,9 @@ const getDeckList = (deck: RawDeckList, side = false) => {
   }
 
   return cards;
-};
+}
 
-const getTypedDeckList = (data: RawResults, tournament: ITournament): Array<IDeck> => {
+function getTypedDeckList (data: RawResults, tournament: ITournament): Array<IDeck> {
   const typedDeckLists: Array<IDeck> = [];
 
   for (const deckList of data.decks) {
@@ -110,12 +66,12 @@ const getTypedDeckList = (data: RawResults, tournament: ITournament): Array<IDec
 
   const validDeck = guardDeck(typedDeckLists);
   return typedDeckLists;
-};
+}
 
 /**
  *
  */
-export const MTGOTournamentParser = async (url: string): Promise<IFullResult> => {
+export async function MTGOTournamentParser (url: string): Promise<IFullResult> {
   const data = await superFetch(url);
   const fullData = new JSDOM(data);
 
@@ -146,4 +102,4 @@ export const MTGOTournamentParser = async (url: string): Promise<IFullResult> =>
     brackets: rawDataScripts.brackets as Pick<RawResults, 'brackets'> ?? undefined,
     rawData: JSON.stringify(rawDataScripts)
   };
-};
+}
