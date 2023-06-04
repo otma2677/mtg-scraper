@@ -9,7 +9,7 @@ import { guardCard, guardDeck, guardFullResult, guardTournament } from '../../..
  *
  */
 describe('Test tournamentParser against a legacy showcase', function() {
-  this.timeout(5000);
+  this.timeout(7500);
 
   it('Test against modern challenge', async () => {
     const link = 'https://www.mtgo.com/en/mtgo/decklist/modern-challenge-2023-04-0112538312';

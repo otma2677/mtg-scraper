@@ -89,7 +89,7 @@ export function guardRawDeck (obj: any): obj is RawDeck {
   return (
     typeof obj === 'object' &&
     typeof obj.sb === 'boolean' &&
-    (Array.isArray(obj.deck_cards) && obj.deck_cards.every((c: unknown) => guardRawCard(c)))
+    (Array.isArray(obj.deck_cards) && (obj.deck_cards.every((c: unknown) => guardRawCard(c)) || obj.deck_cards.length === 0))
   );
 }
 
@@ -98,7 +98,7 @@ export function guardRawDeckList (obj: any): obj is RawDeckList {
     typeof obj === 'object' &&
     typeof obj.player === 'string' &&
     typeof obj.login.id === 'number' &&
-    (Array.isArray(obj.deck) && obj.deck.every((d: unknown) => guardRawDeck(d)))
+    (Array.isArray(obj.deck) && (obj.deck.every((d: unknown) => guardRawDeck(d)) || obj.deck.length === 0))
   );
 }
 
@@ -127,9 +127,9 @@ export function guardRawBracket (obj: any): obj is RawBracket {
   return (
     typeof obj === 'object' &&
     typeof obj.index === 'number' &&
-    (Array.isArray(obj.matches) && (obj.matches.every((i: any) => {
+    (Array.isArray(obj.matches) && ((obj.matches.every((i: any) => {
       return (
-        Array.isArray(i.players) && i.players.every((p: any) => {
+        Array.isArray(i.players) && (i.players.every((p: any) => {
           return (
             typeof p === 'object' &&
             typeof p.loginid === 'number' &&
@@ -139,9 +139,9 @@ export function guardRawBracket (obj: any): obj is RawBracket {
             typeof p.losses === 'number' &&
             typeof p.winner === 'boolean'
           );
-        })
+        }) || i.players.length === 0)
       );
-    })))
+    })) || obj.matches.length === 0))
   );
 }
 
@@ -152,9 +152,9 @@ export function guardRawResult (obj: any): obj is RawResults {
     typeof obj.event_name === 'string' &&
     typeof obj.date === 'string' &&
     typeof obj.event_type === 'string' &&
-    (Array.isArray(obj.decks) && obj?.decks?.every((d: unknown) => guardRawDeckList(d))) &&
+    (Array.isArray(obj.decks) && (obj?.decks?.every((d: unknown) => guardRawDeckList(d)) || obj.decks.length === 0)) &&
     (typeof obj.subheader === 'string' || obj.subheader === undefined) &&
-    (Array.isArray(obj.placement) && obj?.placement?.every((p: unknown) => guardRawPlacement(p))) &&
+    (Array.isArray(obj.placement) && (obj?.placement?.every((p: unknown) => guardRawPlacement(p)) || obj.placement.length === 0)) &&
     (obj.standings === undefined || (Array.isArray(obj.standings) && obj.standings.every((s: unknown) => guardRawStanding(s)))) &&
     (obj.brackets === undefined || (Array.isArray(obj.brackets) && obj.brackets.every((b: unknown) => guardRawBracket(b))))
   );

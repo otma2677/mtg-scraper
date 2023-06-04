@@ -64,9 +64,10 @@ function getTypedDeckList (data: RawResults, tournament: ITournament): Array<IDe
     typedDeckLists.push(list);
   }
 
-  const isValid = guardDeck(typedDeckLists);
-  if (!isValid)
-    throw new TypeError('Cannot get cards/decklists.');
+  const isValid = typedDeckLists.map(list => guardDeck(list));
+  for (const valid of isValid)
+    if (!valid)
+      throw new Error('Cannot extract list from the given tournament.');
 
   return typedDeckLists;
 }
