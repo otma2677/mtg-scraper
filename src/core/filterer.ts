@@ -1,10 +1,7 @@
 import { IDeck, IFilter } from './types';
 
-export const filterer = (deck: Pick<IDeck, 'main_cards' | 'format'>, filter: IFilter) => {
-  if (deck.format !== filter.format) return 'unknown';
-
+export const filterer = (deck: Pick<IDeck, 'main_cards'>, filter: IFilter, minimumValue = 3) => {
   let includingXCards = 0;
-  let excludingACard = 0;
 
   for (const card of deck.main_cards) {
     for (const fCard of filter.includes) {
@@ -17,12 +14,11 @@ export const filterer = (deck: Pick<IDeck, 'main_cards' | 'format'>, filter: IFi
     for (const eCard of filter.excludes) {
       const sameName = card.name.toLowerCase() === eCard.name.toLowerCase();
 
-      if (sameName) excludingACard += 1;
+      if (sameName) return 'unknown';
     }
   }
 
-  if (excludingACard >= 1) return 'unknown';
-  if (includingXCards >= 3) return filter.name;
+  if (includingXCards >= minimumValue) return filter.name;
 
   return 'unknown';
 };
