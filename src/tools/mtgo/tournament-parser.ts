@@ -5,6 +5,7 @@ import { DOMWindow, JSDOM } from 'jsdom';
 import { superFetch, checkURLFormat, checkURLLevelOfPlay } from '../../core/utils';
 import { ICard, IDeck, IFullResult, ITournament, RawDeckList, RawResults } from '../../core/types';
 import { guardDeck, guardFullResult, guardTournament } from '../../core/guards';
+import { gatherer } from '../../core/gatherer';
 
 /**
  *
@@ -68,6 +69,9 @@ function getTypedDeckList (data: RawResults, tournament: ITournament): Array<IDe
   for (const valid of isValid)
     if (!valid)
       throw new Error('Cannot extract list from the given tournament.');
+
+  for (const list of typedDeckLists)
+    gatherer(list);
 
   return typedDeckLists;
 }

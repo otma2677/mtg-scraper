@@ -1,6 +1,6 @@
 {
   "name": "mtg-scraper2",
-  "version": "3.2.7",
+  "version": "3.2.8",
   "description": "Tiny and easy web scraper for Magic the gathering.",
   "license": "ISC License",
   "author": "eiwosstdma <eiwos.studio@gmail.com>",
