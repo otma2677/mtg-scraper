@@ -3,6 +3,7 @@
  */
 import { IncomingMessage } from 'node:http';
 import { get } from 'node:https';
+import { request } from 'undici';
 
 /**
  *
@@ -32,24 +33,34 @@ export const getDateFromLink = (tournamentLink: string): { month: string, year: 
  * Fast fetch for non 18+ node
  */
 export const superFetch = async (url: string): Promise<string> => {
-  const currentNodeVersion = Number(process.version.split('.')[0].split('v')[1]);
+  // const currentNodeVersion = Number(process.version.split('.')[0].split('v')[1]);
+  //
+  // if (currentNodeVersion <= 17) {
+  //   return new Promise((resolve, reject) => {
+  //     get(url, (res: IncomingMessage) => {
+  //       if (res.statusCode === undefined) reject('Request did not achieved correctly.');
+  //       if (res.statusCode === 404) reject('Page not found');
+  //
+  //       let body = '';
+  //       res.on('data', (data: BinaryData) => body += data.toString());
+  //
+  //       res.on('end', () => resolve(body));
+  //     });
+  //   });
+  // }
+  //
+  // if (currentNodeVersion >= 18) {
+  // }
+  //
+  // const result = await fetch(url);
+  // return await result.text();
 
-  if (currentNodeVersion <= 17) {
-    return new Promise((resolve, reject) => {
-      get(url, (res: IncomingMessage) => {
-        if (res.statusCode === undefined) reject('Request did not achieved correctly.');
-        if (res.statusCode === 404) reject('Page not found');
+  const result = await request(url);
 
-        let body = '';
-        res.on('data', (data: BinaryData) => body += data.toString());
+  if (result.statusCode <= 299)
+    return result.body.text();
 
-        res.on('end', () => resolve(body));
-      });
-    });
-  }
-
-  const result = await fetch(url);
-  return await result.text();
+  throw new Error(`Cannot reach website at ${url} with status code ${result.statusCode}.\n${JSON.stringify(result)}`);
 };
 
 /**
