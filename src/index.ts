@@ -2,19 +2,46 @@
  * IMPORTS
  */
 export {
-  IDeck,
-  IFullResult,
-  ITournament,
-  ICard,
-  IFilter,
+  IDeck as OldDeck,
+  IFullResult as OldFullResult,
+  ITournament as OldTournament,
+  ICard as OldCard,
+  IFilter as OldFilter,
+  RawDeckList as OldRawDeckList,
+  RawStanding as OldRawStanding,
+  RawBracket as OldBracket,
+  RawDeck as OldRawDeck,
+  RawCard as OldRawCard,
+  RawPlacement as OldRawPlacement,
+  RawResults as OldRawResults
+} from './core/types';
+
+export {
+  filterSchema,
+  cardSchema,
+  deckSchema,
+  tournamentSchema,
+  fullResultSchema,
+  rawCardSchema,
+  rawDeckSchema,
+  rawDeckListSchema,
+  rawStandingSchema,
+  rawBracketSchema,
+  rawPlacementSchema,
+  rawResultSchema,
+  Filter,
+  Card,
+  Deck,
+  Tournament,
+  FullResult,
+  RawCard,
+  RawDeck,
   RawDeckList,
   RawStanding,
   RawBracket,
-  RawDeck,
-  RawCard,
   RawPlacement,
-  RawResults
-} from './core/types';
+  RawResult
+} from './core/types_schemas';
 
 export {
   guardCard,
