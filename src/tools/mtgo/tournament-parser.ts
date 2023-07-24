@@ -74,7 +74,7 @@ function extractScript(text: string) {
   const scriptContentWithComma = firstChunk.split('window.MTGO.decklists.data = ')[1];
   const realScriptContent = scriptContentWithComma.split(';')[0];
   const object = JSON.parse(realScriptContent.toLowerCase());
-  // rawResultSchema.parse(object);
+  rawResultSchema.parse(object);
 
   return object as RawResult;
 }

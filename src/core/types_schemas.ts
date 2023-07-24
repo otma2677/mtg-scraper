@@ -55,13 +55,13 @@ export type Tournament = Z.infer<typeof tournamentSchema>;
 export const rawCardSchema = Z.object({
   quantity: Z.number(),
   card_attributes: Z.object({
-    type: Z.string(),
+    type: Z.string().optional(),
     set: Z.string(),
-    color: Z.string(),
+    color: Z.string().optional(),
     card_code: Z.number(),
     rarity: Z.string(),
     name: Z.string(),
-    cost: Z.number()
+    cost: Z.number().optional()
   })
 });
 
