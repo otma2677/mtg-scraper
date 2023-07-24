@@ -1,26 +1,19 @@
 /**
  * IMPORTS
  */
-import { DOMWindow, JSDOM } from 'jsdom';
 import { superFetch, checkURLFormat, checkURLLevelOfPlay } from '../../core/utils';
-import { Card, Deck, FullResult, Tournament, RawDeckList, RawResult, fullResultSchema, deckSchema } from '../../core/types_schemas';
+import { Card, Deck, FullResult, Tournament, RawDeckList, RawResult, fullResultSchema, deckSchema, rawResultSchema } from '../../core/types_schemas';
 import { gatherer } from '../../core/gatherer';
 
 /**
  *
  */
-function getRawDeckListsScript (data: DOMWindow): RawResult {
-  const rawScripts = data.document.scripts;
-  const rawDeckLists = rawScripts[1]?.textContent?.split('window.MTGO.decklists.data =')[1].split(';')[0] as string;
-
-  if (rawDeckLists === undefined)
-    throw new TypeError('Cannot obtain raw deck list from dom window element.');
-
-  return JSON.parse(rawDeckLists.toLowerCase()) as RawResult;
-}
-
 function getCardsSideOrMain (deck: RawDeckList, side = false) {
   const sub = deck.deck;
+
+  if (!sub)
+    throw new Error('No decks bro');
+
   const mainCards = sub.find(l => l.sb === side);
   const cards: Array<Card> = [];
 
@@ -75,22 +68,30 @@ function getTypedDeckList (data: RawResult, tournament: Tournament): Array<Deck>
   return typedDeckLists;
 }
 
+function extractScript(text: string) {
+  const scriptChunk = text.split('<script>')[1]; // Raw chunk of script
+  const firstChunk = scriptChunk.split('</script>')[0]; // Cut the endpart
+  const scriptContentWithComma = firstChunk.split('window.MTGO.decklists.data = ')[1];
+  const realScriptContent = scriptContentWithComma.split(';')[0];
+  const object = JSON.parse(realScriptContent.toLowerCase());
+  // rawResultSchema.parse(object);
+
+  return object as RawResult;
+}
+
 /**
  *
  */
 export async function MTGOTournamentParser (url: string): Promise<FullResult> {
   const data = await superFetch(url);
-  const fullData = new JSDOM(data);
 
-  /**
-   * Processing data from the DOM elements
-   */
-  const rawDataScripts = getRawDeckListsScript(fullData.window);
+  const rawResults = extractScript(data);
+
   const name = url.split('/').at(-1) as string;
   const format = checkURLFormat(url);
   const levelOfPlay = checkURLLevelOfPlay(url);
   const platform = url.split('.')[1];
-  const totalPlayers = rawDataScripts?.decks?.length;
+  const totalPlayers = rawResults.decks.length;
 
   const tournament: Tournament = {
     name,
@@ -99,18 +100,18 @@ export async function MTGOTournamentParser (url: string): Promise<FullResult> {
     level_of_play: levelOfPlay,
     platform,
     total_players: totalPlayers,
-    original_id: rawDataScripts._id
+    original_id: rawResults._id
   };
 
   const obj = {
     tournament,
-    deckLists: getTypedDeckList(rawDataScripts, tournament),
-    standings: rawDataScripts.standings as Pick<RawResult, 'standings'> ?? undefined,
-    brackets: rawDataScripts.brackets as Pick<RawResult, 'brackets'> ?? undefined,
-    rawData: JSON.stringify(rawDataScripts)
+    deckLists: getTypedDeckList(rawResults, tournament),
+    standings: rawResults.standings as Pick<RawResult, 'standings'> ?? undefined,
+    brackets: rawResults.brackets as Pick<RawResult, 'brackets'> ?? undefined,
+    rawData: JSON.stringify(rawResults)
   };
 
-  const isValidObject = fullResultSchema.parse(obj);
+  fullResultSchema.parse(obj);
 
   return obj as FullResult;
 }

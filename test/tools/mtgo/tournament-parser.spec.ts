@@ -8,7 +8,7 @@ import { guardCard, guardDeck, guardFullResult, guardTournament } from '../../..
 /**
  *
  */
-describe('Test tournamentParser against a legacy showcase', function() {
+describe('Test tournamentParser', function() {
   this.timeout(7500);
 
   it('Test against modern challenge', async () => {

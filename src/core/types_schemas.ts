@@ -59,7 +59,7 @@ export const rawCardSchema = Z.object({
     set: Z.string(),
     color: Z.string(),
     card_code: Z.number(),
-    rarity: Z.number(),
+    rarity: Z.string(),
     name: Z.string(),
     cost: Z.number()
   })
@@ -83,8 +83,8 @@ export const rawDeckListSchema = Z.object({
 export type RawDeckList = Z.infer<typeof rawDeckListSchema>;
 
 export const rawPlacementSchema = Z.object({
-  loginid: Z.number(),
-  rank: Z.number()
+  loginid: Z.number().optional(),
+  rank: Z.number().optional()
 });
 
 export type RawPlacement = Z.infer<typeof rawPlacementSchema>;

@@ -36,6 +36,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "jsdom": "^22.1.0",
     "undici": "^5.22.1",
     "zod": "^3.21.4"
