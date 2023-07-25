@@ -39,41 +39,40 @@ Following, are some example that you could use directly.
 - [Examples](#examples)
 - [License](#license)
 
-## Links to tourneys
-You can get all tournament links of a given moment, a moment being a couple of
-month and year input.
-
-If you want to get all tournament of september 2022 you have to do it as follows;
+## Get tournaments name
+Say, you want to get all tournament links of September 2022, you would want to do as follows;
+<hr>
 
 ```typescript
-import { MTGOTournamentScraper } from './mtg-scraper2';
+import { MTGOTournamentScraper } from 'mtg-scraper2';
 
-const linksOfTournaments = await MTGOTournamentScraper(9, 2022);
+const linksOfTournaments = await MTGOTournamentScraper(8, 2022);
 
 console.log(linksOfTournaments); // [ 'first link', 'second link', ...]
 ```
+> [!Important]\
+> Like in Arrays, and alike structure in EcmaScript, Months start at 0 for January. September is then the 8th month.
 
-## Result of tournament
-If you have a link of a magic the gathering online tournament to scrap, you can use
-the tournamentParser with the given link as follows;
+_
+## Get metadata of a tournament
+Say, you want to have all deck lists of a given tournament, you would want to do as follows;
+<hr>
 
 ```typescript
-import { MTGOTournamentParser } from './mtg-scraper2';
+import { MTGOTournamentParser } from 'mtg-scraper2';
 
 const tournamentData = await MTGOTournamentParser('url-of-the-tournament');
 
 console.log(tournamentData);
 ```
 
-The result of the function is described in the types section and is named 'IFullResult',
-all interfaces are available through the library in your project.
-
+_
 ## Utilities
 
 You can quickly generate a unique ID like tourneys/decklist do have by using the generateUniqueID function;
 
 ```typescript
-import { generateUniqueID } from './mtg-scraper2';
+import { generateUniqueID } from 'mtg-scraper2';
 
 const data = generateUniqueID('Some string to hash'); // return a 32 characters long string
 ```
@@ -82,7 +81,7 @@ You can also check some information based on an URL, the format, the platform an
 the level of play;
 
 ```typescript
-import { checkURLFormat, checkURLPlatform, checkURLLevelOfPlay } from './utils';
+import { checkURLFormat, checkURLPlatform, checkURLLevelOfPlay } from 'mtg-scraper2';
 
 const link1 = 'https://www.mtgo.com/en/mtgo/decklist/legacy-challenge-32-2023-04-0112538310';
 const link2 = 'linkwedontknowwellyet'
@@ -139,7 +138,7 @@ You can check any non-raw type with functions dedicated to that which will take 
 an input and then return a boolean;
 
 ```typescript
-import { guardCard } from './guards';
+import { guardCard } from 'mtg-scraper2';
 
 const card1 = { name: 'Murktide regent', quantity: 1 };
 const card2 = { unknownProp: null, quantity: '1' };
@@ -301,11 +300,11 @@ import { MTGOTournamentParser, MTGOTournamentScraper, checkURLFormat } from 'mtg
         } catch(err) {
           if (err instanceof Error) {
             const pathToErrorFile = await saveErr(name, err);
-            console.error(`An error while scraping ${tournament} has occurred. Details at ${ pathToErrorFile }.`);
+            console.error(`An error while scraping ${ name } has occurred. Details at ${ pathToErrorFile }.`);
           }
         }
 
-        // Wait 30 seconds between tournaments scrap
+        // Wait 30 seconds between tournament scraps
         await sleep(30 * 1000);
       }
     } catch (err) {
@@ -315,7 +314,7 @@ import { MTGOTournamentParser, MTGOTournamentScraper, checkURLFormat } from 'mtg
 })();
 
 /**
- * Save data locally
+ * Save errors into .txt files
  */
 async function saveErr(name: string, err: Error) {
   const date = Date.now();
