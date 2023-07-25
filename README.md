@@ -1,11 +1,7 @@
 # mtg-scraper
 
-> **Warning**
-> 
-> Breaking changes in between 2.2.0 && 3.0.0
-> 
+> [!Important]\
 > With 3.3.0 zod is used for type and schemas is a more suitable way to valid your objects than guards.
-
 
 « mtg-scraper2 » is a tiny web scraper for magic the gathering tournaments results and aggregate the data
 to make it easily disposable.
