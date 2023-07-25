@@ -1,14 +1,16 @@
-# mtg-scraper
-
 > [!Important]\
 > Zod support is now available in ^3.3.0
 
 > [!Note]\
 > The scraper is getting faster;
-> 
-> Undici is used instead of node:http for network request
-> Some boilerplate code has been deleted which makes data interpretation 50-80x times faster (from 80ms to ~1ms)
+>
+> 1/ Undici is used instead of node:http for network request
+>
+> 2/ Some boilerplate code has been deleted which makes data interpretation 50-80x times faster (from 80ms to ~1ms)
 
+<hr>
+
+# mtg-scraper
 « mtg-scraper2 » is a lightweight Node.js module written in Typescript to scrap and gather data from
 magic the gathering online events.
 
