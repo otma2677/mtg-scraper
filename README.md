@@ -51,7 +51,7 @@ console.log(linksOfTournaments); // [ 'first link', 'second link', ...]
 > [!Warning]\
 > Like in Arrays, and alike structure in EcmaScript, Months start at 0 for January. September is then the 8th month.
 
-_
+
 ## Get metadata of a tournament
 Say, you want to have all deck lists of a given tournament, you would want to do as follows;
 <hr>
@@ -64,7 +64,7 @@ const tournamentData = await MTGOTournamentParser('url-of-the-tournament');
 console.log(tournamentData);
 ```
 
-_
+
 ## Schema & Types
 All types of the module are built on top of zod, to make everything easier to use with their
 powerful schema features.
@@ -217,7 +217,7 @@ export const fullResultSchema = Z.object({
 
 export type FullResult = Z.infer<typeof fullResultSchema>;
 ```
-_
+
 
 ## Filters
 You can give names to deck lists using filters schema.
@@ -252,11 +252,11 @@ for (const list of lists)
 > If any card in excludes appears in the deck list, the schema will not be validated.\
 > You can make a card at 0 in a schema to make any number valid in the deck list to be corresponding.
 
-_
+
 ## Helpers
 
 
-_
+
 ## Guards
 > [!Warning]\
 > These functions will disappear in the next big release (4.x.x)
