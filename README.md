@@ -121,8 +121,7 @@ for (const list of lists)
 
 ### Guards
 
->**Warning**
->
+> [!Warning]\
 > These types will disappear in the next big release (4.x.x)
 
 You can check any non-raw type with functions dedicated to that which will take an obj as 
@@ -142,8 +141,7 @@ The same behavior works for Filters, Decks, Tournaments and FullResults.
 
 ### Types
 
->**Warning**
-> 
+> [!Warning]\
 > These types will disappear in the next big release (4.x.x)
 
 ```typescript
