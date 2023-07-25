@@ -35,7 +35,7 @@ without you launching scripts manually.
 - [Filters](#filters)
 - [Type guards (deprecated)](#guards)
 - [Types (deprecated)](#types)
-- [License](#license)
+- [License](https://spdx.org/licenses/ISC.html)
 
 ## Get tournaments name
 Say, you want to get all tournament links of September 2022, you would want to do as follows;
@@ -380,8 +380,3 @@ export interface RawResults {
   }>;
 }
 ```
-
-## License
-The license is as follows. The project is totally free and open source.
-
-https://spdx.org/licenses/ISC.html
