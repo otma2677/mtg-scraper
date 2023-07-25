@@ -1,23 +1,30 @@
 # mtg-scraper
 
 > [!Important]\
-> With 3.3.0 zod is used for type and schemas is a more suitable way to valid your objects than guards.
+> Zod support is now available in ^3.3.0
 
-« mtg-scraper2 » is a tiny web scraper for magic the gathering tournaments results and aggregate the data
-to make it easily disposable.
+> [!Note]\
+> Now the scraper is faster, a switch into Undici for http requests along with less boilerplate in for
+> getting metadata.
 
-At the very moment, only magic the gathering online is targeted by the library.
+« mtg-scraper2 » is a lightweight Node.js module written in Typescript to scrap and gather data from
+magic the gathering online events.
 
-We will also add a support for Zod pretty soon, to get a better experiences with types.
-
-# Examples
-You can look at examples of how to use the project directly at [examples](./examples/README.md)
-
-# How to install
+## Installation
 You just need to use npm.
 ```pwsh
 npm i mtg-scraper2
 ```
+
+## Quickstart
+The easiest way to use it, is to directly write a script to check available tournaments to then
+scrap all metadata of them. You can easily automate it to check tournaments every day/hours or so
+and scrap data when there is something available.
+
+The following are some example(s) that could be directly used. Though they should be enhanced
+for each use cases. Using a real database, transforming data in other formats, etc.
+
+[Here you check every day if tournaments are available and scrap them, to then save them](#examples)
 
 # API
 - [Links to tourneys](#links-to-tourneys)
@@ -28,7 +35,7 @@ npm i mtg-scraper2
 - [Types (deprecated)](#types)
 - [License](#license)
 
-### Links to tourneys
+## Links to tourneys
 You can get all tournament links of a given moment, a moment being a couple of
 month and year input.
 
@@ -42,7 +49,7 @@ const linksOfTournaments = await MTGOTournamentScraper(9, 2022);
 console.log(linksOfTournaments); // [ 'first link', 'second link', ...]
 ```
 
-### Result of tournament
+## Result of tournament
 If you have a link of a magic the gathering online tournament to scrap, you can use
 the tournamentParser with the given link as follows;
 
@@ -57,7 +64,7 @@ console.log(tournamentData);
 The result of the function is described in the types section and is named 'IFullResult',
 all interfaces are available through the library in your project.
 
-### Utilities
+## Utilities
 
 You can quickly generate a unique ID like tourneys/decklist do have by using the generateUniqueID function;
 
@@ -86,7 +93,7 @@ console.log(checkURLLevelOfPlay(link1)); // 'challenge'
 console.log(checkURLLevelOfPlay(link2)); // 'unknown'
 ```
 
-### Filters
+## Filters
 Once you've had save all you deck lists, you can filter them to get their archetype.
 You need filters using the following format;
 ```typescript
@@ -119,7 +126,7 @@ for (const list of lists)
  */
 ```
 
-### Guards
+## Guards
 
 > [!Warning]\
 > These types will disappear in the next big release (4.x.x)
@@ -139,7 +146,7 @@ console.log(guardCard(card2)) // false
 
 The same behavior works for Filters, Decks, Tournaments and FullResults.
 
-### Types
+## Types
 
 > [!Warning]\
 > These types will disappear in the next big release (4.x.x)
@@ -245,7 +252,112 @@ export interface RawResults {
 }
 ```
 
-# License
+## Examples
+
+```typescript
+import { setTimeout as sleep, setInterval as every } from 'node:timers/promises';
+import { join } from 'node:path';
+import { access, writeFile, mkdir } from 'node:fs/promises';
+import { homedir } from 'node:os';
+import { MTGOTournamentParser, MTGOTournamentScraper, checkURLFormat } from 'mtg-scraper2';
+
+(async () => {
+  try {
+    await initFolders();
+  } catch(err) {
+    console.error(err);
+    process.exit(1);
+  }
+  
+  const day = (60*60*24) *1000;
+  for await (const _ of every(day)) {
+    try {
+      const today = new Date();
+      const availableTournaments = await MTGOTournamentScraper(today.getMonth(), today.getFullYear());
+
+      for (const tournament of availableTournaments) {
+        const name = tournament.split('/').at(-1);
+        const format = checkURLFormat(tournament);
+        if (!name || format === 'unknown')
+          continue;
+
+        const fileName = `${name}.json`;
+        const filePath = join(homedir(), 'mtg_scraper_data', format, fileName);
+
+        if (await checkPathValidity(filePath))
+          continue;
+
+        try {
+          const data = await MTGOTournamentParser(tournament);
+          await writeFile(filePath, JSON.stringify(data));
+          
+        } catch(err) {
+          if (err instanceof Error) {
+            const pathToErrorFile = await saveErr(name, err);
+            console.error(`An error while scraping ${tournament} has occurred. Details at ${ pathToErrorFile }.`);
+          }
+        }
+
+        // Wait 30 seconds between tournaments scrap
+        await sleep(30 * 1000);
+      }
+    } catch (err) {
+      console.error('Error occurred while reaching for tournaments.\n' + err);
+    }
+  }
+})();
+
+/**
+ * Save data locally
+ */
+async function saveErr(name: string, err: Error) {
+  const date = Date.now();
+  const fileName = `error_${date}_${name}.txt`;
+  const filePath = join(homedir(), 'mtg_scraper_data', fileName);
+  
+  const formattedError = `
+    ERROR - ${new Date(date).toLocaleDateString()}
+    Tournament concerned: ${ name }
+    
+    Message (${err.name}): ${err.message}
+    
+    Stack: ${err.stack}
+  `;
+  
+  await writeFile(filePath, formattedError);
+  
+  return filePath;
+}
+
+/**
+ * Create a path in the user windows/linux folder to later save all the tournament data in there
+ */
+async function initFolders() {
+  const pathToDataStorageFolder = join(homedir(), 'mtg_scraper_data');
+  if (!await checkPathValidity(pathToDataStorageFolder))
+    await mkdir(pathToDataStorageFolder);
+
+  const formats = [ 'standard', 'pioneer', 'modern', 'pauper', 'legacy', 'vintage' ];
+  for (const format of formats)
+    if (!await checkPathValidity(join(pathToDataStorageFolder, format)))
+      await mkdir(join(pathToDataStorageFolder, format))
+}
+
+/**
+ * Check if path does exist
+ */
+async function checkPathValidity(path: string) {
+  try {
+    await access(path);
+    return true;
+  } catch(err) {
+    return false;
+  }
+}
+
+```
+
+## License
 The license is as follows. The project is totally free and open source.
 
 https://spdx.org/licenses/ISC.html
