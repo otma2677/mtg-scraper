@@ -4,8 +4,10 @@
 > Zod support is now available in ^3.3.0
 
 > [!Note]\
-> Now the scraper is faster, a switch into Undici for http requests along with less boilerplate in for
-> getting metadata.
+> The scraper is getting faster;
+> 
+> Undici is used instead of node:http for network request
+> Some boilerplate code has been deleted which makes data interpretation 50-80x times faster (from 80ms to ~1ms)
 
 « mtg-scraper2 » is a lightweight Node.js module written in Typescript to scrap and gather data from
 magic the gathering online events.
@@ -18,21 +20,23 @@ npm i mtg-scraper2
 
 ## Quickstart
 The easiest way to use it, is to directly write a script to check available tournaments to then
-scrap all metadata of them. You can easily automate it to check tournaments every day/hours or so
-and scrap data when there is something available.
+scrap all metadata related to them. 
 
-The following are some example(s) that could be directly used. Though they should be enhanced
-for each use cases. Using a real database, transforming data in other formats, etc.
+Node makes it easy to build a cron-like experience to reach every day (as an example) data you need
+without you launching scripts manually.
 
-[Here you check every day if tournaments are available and scrap them, to then save them](#examples)
+Following, are some example that you could use directly.
 
-# API
+- [Save in json locally, using setInterval to cron tasks](#local-json-script)
+
+# Summary
 - [Links to tourneys](#links-to-tourneys)
 - [Result of a tournament](#result-of-tournament)
 - [Utilities](#utilities)
 - [Filters (Archetypes)](#filters)
 - [Type guards (deprecated)](#guards)
 - [Types (deprecated)](#types)
+- [Examples](#examples)
 - [License](#license)
 
 ## Links to tourneys
@@ -254,6 +258,7 @@ export interface RawResults {
 
 ## Examples
 
+### Local json script
 ```typescript
 import { setTimeout as sleep, setInterval as every } from 'node:timers/promises';
 import { join } from 'node:path';
@@ -262,6 +267,7 @@ import { homedir } from 'node:os';
 import { MTGOTournamentParser, MTGOTournamentScraper, checkURLFormat } from 'mtg-scraper2';
 
 (async () => {
+  // Create necessary folders if they don't already exists
   try {
     await initFolders();
   } catch(err) {
@@ -270,6 +276,7 @@ import { MTGOTournamentParser, MTGOTournamentScraper, checkURLFormat } from 'mtg
   }
   
   const day = (60*60*24) *1000;
+  
   for await (const _ of every(day)) {
     try {
       const today = new Date();
