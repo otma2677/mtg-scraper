@@ -5,7 +5,7 @@
 > The scraper is getting faster;
 >
 > 1/ Undici is used instead of node:http for network request\
-> 2/ Some boilerplate code has been deleted which makes data interpretation 50-80x times faster (from 80ms to ~1ms)
+> 2/ Some boilerplate code has been deleted which makes some components 50-80x times faster (from 80ms to ~1ms)
 
 # mtg-scraper
 « mtg-scraper2 » is a lightweight Node.js module written in Typescript to scrap and gather data from
@@ -33,7 +33,7 @@ Following, are some example that you could use directly.
 - [Tournaments](#get-tournaments-name)
 - [Tournament results](#get-metadata-of-a-tournament)
 - [Schemas & Type definitions](#schema--types)
-- [Filters (Archetypes)](#filters)
+- [Filters](#filters)
 - [Type guards (deprecated)](#guards)
 - [Types (deprecated)](#types)
 - [Examples](#examples)
@@ -50,7 +50,7 @@ const linksOfTournaments: Array<string> = await MTGOTournamentScraper(8, 2022);
 
 console.log(linksOfTournaments); // [ 'first link', 'second link', ...]
 ```
-> [!Important]\
+> [!Warning]\
 > Like in Arrays, and alike structure in EcmaScript, Months start at 0 for January. September is then the 8th month.
 
 _
@@ -219,10 +219,11 @@ export const fullResultSchema = Z.object({
 
 export type FullResult = Z.infer<typeof fullResultSchema>;
 ```
-____
+_
+
 ## Filters
-Once you've had save all you deck lists, you can filter them to get their archetype.
-You need filters using the following format;
+You can give names to deck lists using filters schema.
+
 ```typescript
 interface IFilter {
   id?: string | number;
@@ -233,26 +234,27 @@ interface IFilter {
 }
 ```
 
-The ID is not used in the process but could exist for your databases schemas.
-
-From there you can then use your filters with the "filterer" function, like as follow;
+You can use filters with the `filterer` function, like as follows;
+<hr>
 
 ```typescript
-import { filterer } from './filterer';
-import { IDeck, IFilter } from './types';
+import { filterer, Deck, Filter } from 'mtg-scraper2';
 
-const lists: Array<IDeck> = [ /** Decklists .. */ ];
-const filters: Array<IFilter> = [ /** Filters .. */ ];
+const lists: Array<Deck> = [ /** Decklists .. */ ];
+const filters: Array<Filter> = [ /** Filters .. */ ];
 
 for (const list of lists)
   for (const filter of filters)
     list.name = filterer(list, filter);
-
-/**
- * The rest of your code.
- */
 ```
 
+> [!Note]\
+> You need at least 4 identical components to make the filterer validating your deck list against a
+> schema.\
+> If any card in excludes appears in the deck list, the schema will not be validated.\
+> You can make a card at 0 in a schema to make any number valid in the deck list to be corresponding.
+
+_
 ## Guards
 
 > [!Warning]\
