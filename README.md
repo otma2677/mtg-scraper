@@ -3,9 +3,11 @@
 > **Warning**
 > 
 > Breaking changes in between 2.2.0 && 3.0.0
+> 
+> With 3.3.0 zod is used for type and schemas is a more suitable way to valid your objects than guards.
 
 
-Mtg scraper is a tiny web scraper to gather magic the gathering tournaments results and aggregate the data
+« mtg-scraper2 » is a tiny web scraper for magic the gathering tournaments results and aggregate the data
 to make it easily disposable.
 
 At the very moment, only magic the gathering online is targeted by the library.
@@ -26,8 +28,9 @@ npm i mtg-scraper2
 - [Result of a tournament](#result-of-tournament)
 - [Utilities](#utilities)
 - [Filters (Archetypes)](#filters)
-- [Type guards](#guards)
-- [Types](#types)
+- [Type guards (deprecated)](#guards)
+- [Types (deprecated)](#types)
+- [License](#license)
 
 ### Links to tourneys
 You can get all tournament links of a given moment, a moment being a couple of
@@ -121,6 +124,11 @@ for (const list of lists)
 ```
 
 ### Guards
+
+>**Warning**
+>
+> These types will disappear in the next big release (4.x.x)
+
 You can check any non-raw type with functions dedicated to that which will take an obj as 
 an input and then return a boolean;
 
@@ -137,6 +145,10 @@ console.log(guardCard(card2)) // false
 The same behavior works for Filters, Decks, Tournaments and FullResults.
 
 ### Types
+
+>**Warning**
+> 
+> These types will disappear in the next big release (4.x.x)
 
 ```typescript
 export interface ICard {
