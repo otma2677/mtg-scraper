@@ -30,9 +30,9 @@ Following, are some example that you could use directly.
 - [Save in json locally, using setInterval to cron tasks](#local-json-script)
 
 # Summary
-- [Links to tourneys](#links-to-tourneys)
-- [Result of a tournament](#result-of-tournament)
-- [Utilities](#utilities)
+- [Tournaments](#get-tournaments-name)
+- [Tournament results](#get-metadata-of-a-tournament)
+- [Schemas & Type definitions](#schema--types)
 - [Filters (Archetypes)](#filters)
 - [Type guards (deprecated)](#guards)
 - [Types (deprecated)](#types)
@@ -46,7 +46,7 @@ Say, you want to get all tournament links of September 2022, you would want to d
 ```typescript
 import { MTGOTournamentScraper } from 'mtg-scraper2';
 
-const linksOfTournaments = await MTGOTournamentScraper(8, 2022);
+const linksOfTournaments: Array<string> = await MTGOTournamentScraper(8, 2022);
 
 console.log(linksOfTournaments); // [ 'first link', 'second link', ...]
 ```
@@ -67,35 +67,159 @@ console.log(tournamentData);
 ```
 
 _
-## Utilities
+## Schema & Types
+All types of the module are built on top of zod, to make everything easier to use with their
+powerful schema features.
 
-You can quickly generate a unique ID like tourneys/decklist do have by using the generateUniqueID function;
-
-```typescript
-import { generateUniqueID } from 'mtg-scraper2';
-
-const data = generateUniqueID('Some string to hash'); // return a 32 characters long string
-```
-
-You can also check some information based on an URL, the format, the platform and
-the level of play;
+Here are descriptions;
+<hr>
 
 ```typescript
-import { checkURLFormat, checkURLPlatform, checkURLLevelOfPlay } from 'mtg-scraper2';
+import Z from 'zod';
 
-const link1 = 'https://www.mtgo.com/en/mtgo/decklist/legacy-challenge-32-2023-04-0112538310';
-const link2 = 'linkwedontknowwellyet'
+export const cardSchema = Z.object({
+  name: Z.string(),
+  quantity: Z.number(),
+  color: Z.string().optional(),
+  cost: Z.number().optional(),
+  type: Z.string().optional()
+});
 
-console.log(checkURLFormat(link1)); // 'legacy'
-console.log(checkURLFormat(link2)); // 'unknown'
+export type Card = Z.infer<typeof cardSchema>;
 
-console.log(checkURLPlatform(link1)); // 'www.mtgo'
-console.log(checkURLPlatform(link2)); // 'unknown'
+export const filterSchema = Z.object({
+  name: Z.string(),
+  format: Z.string(),
+  includes: Z.array(cardSchema),
+  excludes: Z.array(cardSchema)
+});
 
-console.log(checkURLLevelOfPlay(link1)); // 'challenge'
-console.log(checkURLLevelOfPlay(link2)); // 'unknown'
+export type Filter = Z.infer<typeof filterSchema>;
+
+export const deckSchema = Z.object({
+  login_id: Z.string(),
+  tournament_name: Z.string(),
+  player_name: Z.string(),
+  format: Z.string(),
+  level_of_play: Z.string(),
+  main_cards: Z.array(cardSchema),
+  side_cards: Z.array(cardSchema),
+  deck_name: Z.string(),
+  standing: Z.object({
+    rank: Z.number(),
+    name: Z.string(),
+    gwp: Z.number(),
+    ogwp: Z.number(),
+    omwp: Z.number(),
+    loginid: Z.number(),
+    points: Z.number()
+  }).optional()
+});
+
+export type Deck = Z.infer<typeof deckSchema>;
+
+export const tournamentSchema = Z.object({
+  original_id: Z.string(),
+  name: Z.string(),
+  link: Z.string(),
+  format: Z.string(),
+  platform: Z.string(),
+  level_of_play: Z.string(),
+  total_players: Z.number()
+});
+
+export type Tournament = Z.infer<typeof tournamentSchema>;
+
+export const rawCardSchema = Z.object({
+  quantity: Z.number(),
+  card_attributes: Z.object({
+    type: Z.string().optional(),
+    set: Z.string(),
+    color: Z.string().optional(),
+    card_code: Z.number(),
+    rarity: Z.string(),
+    name: Z.string(),
+    cost: Z.number().optional()
+  })
+});
+
+export type RawCard = Z.infer<typeof rawCardSchema>;
+
+export const rawDeckSchema = Z.object({
+  sb: Z.boolean(),
+  deck_cards: Z.array(rawCardSchema)
+});
+
+export type RawDeck = Z.infer<typeof rawDeckSchema>;
+
+export const rawDeckListSchema = Z.object({
+  player: Z.string(),
+  loginid: Z.number(),
+  deck: Z.array(rawDeckSchema)
+});
+
+export type RawDeckList = Z.infer<typeof rawDeckListSchema>;
+
+export const rawPlacementSchema = Z.object({
+  loginid: Z.number().optional(),
+  rank: Z.number().optional()
+});
+
+export type RawPlacement = Z.infer<typeof rawPlacementSchema>;
+
+export const rawStandingSchema = Z.object({
+  rank: Z.number(),
+  name: Z.string(),
+  gwp: Z.number(),
+  ogwp: Z.number(),
+  omwp: Z.number(),
+  loginid: Z.number(),
+  points: Z.number()
+});
+
+export type RawStanding = Z.infer<typeof rawStandingSchema>;
+
+export const rawBracketSchema = Z.object({
+  index: Z.number(),
+  matches: Z.array(Z.object({
+    players: Z.array(Z.object({
+      loginid: Z.number(),
+      player: Z.string(),
+      seeding: Z.number(),
+      wins: Z.number(),
+      losses: Z.number(),
+      winner: Z.boolean()
+    }))
+  }))
+});
+
+export type RawBracket = Z.infer<typeof rawBracketSchema>;
+
+export const rawResultSchema = Z.object({
+  _id: Z.string(),
+  event_name: Z.string(),
+  date: Z.string(),
+  event_type: Z.string(),
+  decks: Z.array(rawDeckListSchema),
+  subheader: Z.string().optional(),
+  placement: Z.array(rawPlacementSchema),
+  standings: Z.array(rawStandingSchema).optional(),
+  brackets: Z.array(rawBracketSchema).optional()
+});
+
+export type RawResult = Z.infer<typeof rawResultSchema>;
+
+export const fullResultSchema = Z.object({
+  tournament: tournamentSchema,
+  deckLists: Z.array(deckSchema),
+  standings: Z.array(rawStandingSchema).optional(),
+  brackets: Z.array(rawBracketSchema).optional(),
+  rawData: Z.string()
+});
+
+export type FullResult = Z.infer<typeof fullResultSchema>;
 ```
-
+____
 ## Filters
 Once you've had save all you deck lists, you can filter them to get their archetype.
 You need filters using the following format;
