@@ -4,22 +4,18 @@
 > [!Note]\
 > The scraper is getting faster;
 >
-> 1/ Undici is used instead of node:http for network request
->
+> 1/ Undici is used instead of node:http for network request\
 > 2/ Some boilerplate code has been deleted which makes data interpretation 50-80x times faster (from 80ms to ~1ms)
-
-<hr>
 
 # mtg-scraper
 « mtg-scraper2 » is a lightweight Node.js module written in Typescript to scrap and gather data from
 magic the gathering online events.
 
 ## Installation
-You just need to use npm.
 ```pwsh
 npm i mtg-scraper2
 ```
-
+_
 ## Quickstart
 The easiest way to use it, is to directly write a script to check available tournaments to then
 scrap all metadata related to them. 
@@ -30,6 +26,8 @@ without you launching scripts manually.
 Following, are some example that you could use directly.
 
 - [Save in json locally, using setInterval to cron tasks](#local-json-script)
+
+<hr>
 
 # Summary
 - [Tournaments](#get-tournaments-name)
