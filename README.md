@@ -9,21 +9,26 @@
 
 # mtg-scraper
 « mtg-scraper2 » is a lightweight Node.js module written in Typescript to scrap and gather data from
-magic the gathering online events.
+magic the gathering events.
+
+## Platform Supports
+The end goal of the project is to gather data from all available tournaments from paper or online events.
+The following is the list of platform yet supported and platform that will be supported eventually.
+
+- [x] Magic the gathering: online
+- [ ] Magic the gathering: arena
 
 ## Installation
 ```pwsh
 npm i mtg-scraper2
 ```
-_
 ## Quickstart
-The easiest way to use it, is to directly write a script to check available tournaments to then
-scrap all metadata related to them. 
+Given that mtg-scraper is just a series of useful functions, the easiest way to use it, 
+is to directly write a script to check available tournaments to then scrap all metadata related
+to them. From there you store how you need it to be (JSON, SQL, etc), results being in JSON format likes.
 
-Node makes it easy to build a cron-like experience to reach every day (as an example) data you need
-without you launching scripts manually.
-
-You can use [pm2](https://www.npmjs.com/package/pm2) to manage your processes easily.
+You can use [pm2](https://www.npmjs.com/package/pm2) to manage your node processes easily, on a server
+as an example.
 
 ### Examples
 [Save data locally in json](./example_1.md)
