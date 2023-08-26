@@ -23,8 +23,12 @@ scrap all metadata related to them.
 Node makes it easy to build a cron-like experience to reach every day (as an example) data you need
 without you launching scripts manually.
 
+You can use [pm2](https://www.npmjs.com/package/pm2) to manage your processes easily.
+
 ### Examples
-- [Save data locally in json](./example_1.md)
+[Save data locally in json](./example_1.md)
+  > In a cron-like manner, with setIntervals, checks for available tournaments and generate
+  > JSON files
 
 <hr>
 
