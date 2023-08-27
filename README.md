@@ -5,16 +5,20 @@
 > The scraper is getting faster;
 >
 > 1/ Undici is used instead of node:http for network request\
-> 2/ Some boilerplate code has been deleted which makes some components 50-80x times faster (from 80ms to ~1ms)
+> 2/ Some boilerplate code has been deleted which makes some components 50-80x times faster 
+> (from around ~80ms to under ~5ms)
 
 # mtg-scraper
 « mtg-scraper2 » is a lightweight Node.js module written in Typescript to scrap and gather data from
 magic the gathering events.
 
-## Platform Supports
-The end goal of the project is to gather data from all available tournaments from paper or online events.
-The following is the list of platform yet supported and platform that will be supported eventually.
+The end goal is to provide an easy way to deal with mtg metadata in the Node.js realm.
 
+## Platform Supports
+At the very moment (3.3.* and below), only **MTG:online** is supported for data gathering, so at the
+end, we want to support as much platform as possible.
+
+**Supported platforms:**
 - [x] Magic the gathering: online
 - [ ] Magic the gathering: arena
 
@@ -27,8 +31,43 @@ Given that mtg-scraper is just a series of useful functions, the easiest way to 
 is to directly write a script to check available tournaments to then scrap all metadata related
 to them. From there you store how you need it to be (JSON, SQL, etc), results being in JSON format likes.
 
-You can use [pm2](https://www.npmjs.com/package/pm2) to manage your node processes easily, on a server
-as an example.
+Here is a real tiny example;
+
+```typescript
+import { setTimeout as sleep } from 'node:timers/promises';
+import { MTGOTournamentScraper, MTGOTournamentParser } from 'mtg-scraper2';
+
+async function main(today: Date) {
+  // Array of string, each string being a tournament link
+  const tournmanentsOfTodayMonthYear = await MTGOTournamentScraper(today.getMonth(), today.getFullYear());
+  
+  for (const tournament of tournamentsOfTodayMonthYear) {
+    try {
+      const dataOfTournament = await MTGOTournamentParser(tournament); // See below the shape of the obtained object
+      
+      // process the obtained data here
+    } catch (err) {
+      console.error(`Cannot access tournament ${tournament}.\n${err}`);
+    }
+  }
+}
+
+while(true) {  
+  try {
+    await main(new Date());
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  
+  const aDayInMilisecond = (60*60*24) *1000;
+  await sleep(aDayInMilisecond);
+}
+```
+
+> [!Note]\
+> You can use [pm2](https://www.npmjs.com/package/pm2) to manage your node processes easily, often 
+> seen on servers, as an example, but could be used on your computer.
 
 ### Examples
 [Save data locally in json](./example_1.md)
