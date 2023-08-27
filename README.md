@@ -280,6 +280,27 @@ interface IFilter {
 }
 ```
 
+Based on that interface, you can create objects like that;
+```typescript
+const myFilterForAGivenArchetype = {
+  name: 'NameOfTheArchetype',
+  format: 'modern',
+  includes: [
+    { name: 'forest', quantity: 0 },
+    { name: 'mountain', quantity: 4 },
+    { name: 'lightning bolt', quantity: 0 }
+  ],
+  excludes: [
+    { name: 'swamp', quantity: 0 }
+  ]
+};
+```
+
+> [!Important]
+> If you use quantity 0, then any amount of the given card will have an effect. In the above
+> example, any amount of swamp dismiss the archetype validation, and any amount of forest valid 
+> the archetype, and you need 4 mountains, at least, to valid the archetype.
+
 You can use filters with the `filterer` function, like as follows;
 <hr>
 
