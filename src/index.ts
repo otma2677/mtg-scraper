@@ -63,10 +63,10 @@ export {
   checkURLLevelOfPlay,
   checkURLFormat,
   checkURLPlatform,
-  getDateFromLink,
   checkFormat,
   checkPlatform,
   checkLevelOfPlay,
+  getDateFromLink,
   formatType,
   levelOfPlayType,
   platformType

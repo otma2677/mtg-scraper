@@ -340,7 +340,45 @@ interface GetDateFromLinkRepresentation {
 }
 
 const obj = getDateFromLink(aLink);
+```
 
+### checkURLLevelOfPlay, checkLevelOfPlay
+"levelOfPlay" represent the level of the event, like a league type of event,
+a challenge or preliminary, etc...
+
+The former function checks the level of the given tournament link, and the later checks
+if a given input is a valid level of play.
+
+```typescript
+import { checkURLLevelOfPlay, checkLevelOfPlay } from 'mtg-scraper2';
+
+const level = checkURLLevelOfPlay('https://www.mtgo.com/en/mtgo/decklist/modern-challenge-2023-08-2612575807'); // result: challenge
+const falseLevel = checkLevelOfPlay('hahaha'); // result: false
+const trueLevel = checkLevelOfPlay('league'); // result: true
+```
+
+### checkURLFormat, checkFormat
+The former function checks the format of the given link, and the later checks 
+if a given input is a valid format.
+
+```typescript
+import { checkURLFormat, checkFormat } from 'mtg-scraper2';
+
+const level = checkURLFormat('https://www.mtgo.com/en/mtgo/decklist/modern-challenge-2023-08-2612575807'); // result: modern
+const falseLevel = checkFormat('hahaha'); // result: false
+const trueLevel = checkFormat('modern'); // result: true
+```
+
+### checkURLPlatform, checkPlatform
+The former function checks the platform of the given link, and the later checks
+if a given input is a valid platform.
+
+```typescript
+import { checkURLPlatform, checkPlatform } from 'mtg-scraper2';
+
+const level = checkURLPlatform('https://www.mtgo.com/en/mtgo/decklist/modern-challenge-2023-08-2612575807'); // result: mtgo
+const falseLevel = checkPlatform('hahaha'); // result: false
+const trueLevel = checkPlatform('mtgo'); // result: true
 ```
 
 ## Guards
