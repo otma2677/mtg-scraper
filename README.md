@@ -301,6 +301,9 @@ const myFilterForAGivenArchetype = {
 > example, any amount of swamp dismiss the archetype validation, and any amount of forest valid 
 > the archetype, and you need 4 mountains, at least, to valid the archetype.
 
+If excludes matches at any point, the archetype is dismissed. You need at least three valid includes
+to valid the archetype.
+
 You can use filters with the `filterer` function, like as follows;
 <hr>
 
@@ -323,8 +326,22 @@ for (const list of lists)
 
 
 ## Helpers
+### 'getDateFromLink'
+Extract an object from a given link.
 
+```typescript
+import { getDateFromLink } from 'mtg-scraper2';
 
+interface GetDateFromLinkRepresentation {
+  timeInMS: number; 
+  month: string;
+  year: string;
+  day: string;
+}
+
+const obj = getDateFromLink(aLink);
+
+```
 
 ## Guards
 > [!Warning]\
