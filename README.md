@@ -326,6 +326,22 @@ for (const list of lists)
 
 
 ## Helpers
+### 'gatherer'
+By default, lists have only one instance of a card in the main deck. But when scraped, often,
+you get multiple instances. (1 island, 2 island, 1 island instead of 4 island as an example)
+
+The gatherer group instance of a same card in a given list.
+
+```typescript
+import { gatherer } from 'mtg-scraper2';
+
+/**
+ * CODE
+ */
+
+gatherer(list); // It does not return anything, but directly update list main_cards and side_cards objects
+```
+
 ### 'getDateFromLink'
 Extract an object from a given link.
 
