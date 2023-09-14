@@ -24,13 +24,15 @@ describe('Test utils functions', () => {
     assert.deepStrictEqual(getDateFromLink(link[0]), {
       month: '04',
       year: '2023',
-      day: '01'
+      day: '01',
+      timeInMS: 1680307200000,
     });
 
     assert.deepStrictEqual(getDateFromLink(link[1]), {
       month: '03',
       year: '2023',
-      day: '31'
+      day: '31',
+      timeInMS: 1680220800000
     });
   });
 
