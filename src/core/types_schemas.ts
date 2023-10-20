@@ -124,7 +124,7 @@ export const rawResultSchema = Z.object({
   event_type: Z.string(),
   decks: Z.array(rawDeckListSchema),
   subheader: Z.string().optional(),
-  placement: Z.array(rawPlacementSchema),
+  placement: Z.array(rawPlacementSchema).optional(),
   standings: Z.array(rawStandingSchema).optional(),
   brackets: Z.array(rawBracketSchema).optional()
 });
