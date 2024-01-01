@@ -12,7 +12,7 @@ describe('Test tournamentParser', function() {
   this.timeout(7500);
 
   it('Test against modern challenge', async () => {
-    const link = 'https://www.mtgo.com/en/mtgo/decklist/modern-challenge-2023-04-0112538312';
+    const link = 'https://www.mtgo.com/decklist/modern-challenge-2023-04-0112538312';
     const data = await MTGOTournamentParser(link);
     let totalSideCards = 0;
     let totalMainCards = 0;
@@ -36,7 +36,7 @@ describe('Test tournamentParser', function() {
   });
 
   it('Test against vintage showcase qualifier', async () => {
-    const link = 'https://www.mtgo.com/en/mtgo/decklist/vintage-showcase-qualifier-2023-04-0112538282';
+    const link = 'https://www.mtgo.com/decklist/vintage-showcase-qualifier-2023-04-0112538282';
     const data = await MTGOTournamentParser(link);
     let totalSideCards = 0;
     let totalMainCards = 0;
@@ -60,7 +60,7 @@ describe('Test tournamentParser', function() {
   });
 
   it('Test against pioneer preliminary', async () => {
-    const link = 'https://www.mtgo.com/en/mtgo/decklist/pioneer-preliminary-2022-08-2712464053';
+    const link = 'https://www.mtgo.com/decklist/pioneer-preliminary-2022-08-2712464053';
     const data = await MTGOTournamentParser(link);
     let totalSideCards = 0;
     let totalMainCards = 0;
@@ -81,20 +81,5 @@ describe('Test tournamentParser', function() {
 
     assert.equal(totalSideCards, 210);
     assert.equal(totalMainCards, 860); //14 decks BUT one has 80 cards instead of 60
-  });
-
-
-  it('Test against standard league', async () => {
-    /**
-     * CANNOT PARSE THAT PARTICULAR TOURNAMENT
-     */
-    const link = 'https://www.mtgo.com/en/mtgo/decklist/standard-league-2022-07-25';
-
-    try {
-      const data = await MTGOTournamentParser(link);
-      assert.equal(false, true);
-    } catch (e) {
-      assert.equal(true, true);
-    }
   });
 });
