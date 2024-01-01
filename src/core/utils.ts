@@ -6,33 +6,61 @@ import { request } from 'undici';
 /**
  *
  */
-export const getDateFromLink = (tournamentLink: string): { timeInMS: number, month: string, year: string, day: string } => {
-  const arrOfSegment = tournamentLink.split('/').at(-1);
-  const lastSegmentSplit = arrOfSegment?.split('-');
-  const isLeague = lastSegmentSplit?.at(1);
+export const getIDFromLink = (link: string) => {
+  const chunks = link.split('-');
+  const lastChunk = chunks.at(-1);
 
-  if (isLeague === 'league') {
-    const obj = {
-      timeInMS: 0,
-      month: lastSegmentSplit?.at(3) as string,
-      year: lastSegmentSplit?.at(2) as string,
-      day: lastSegmentSplit?.at(4) as string,
-    };
+  if (!lastChunk)
+    return null;
 
-    obj.timeInMS = new Date(`${obj.year}-${obj.month}-${obj.day}`).getTime();
-    return obj;
-  } else {
-    const rawDay = lastSegmentSplit?.at(-1);
-    const obj = {
-      timeInMS: 0,
-      month: lastSegmentSplit?.at(-2) as string,
-      year: lastSegmentSplit?.at(-3) as string,
-      day: rawDay?.slice(0, 2) as string
-    };
+  return lastChunk.slice(2, lastChunk.length);
+};
 
-    obj.timeInMS = new Date(`${obj.year}-${obj.month}-${obj.day}`).getTime();
-    return obj;
-  }
+export const getDateFromLink = (link: string): { timeInMS: number, month: string, year: string, day: string } => {
+  const chunks = link.split('/');
+
+  const segment = chunks.at(-1);
+  const endSegmentChunks = segment?.split('-');
+  const rawDay = endSegmentChunks?.at(-1);
+
+  const y = endSegmentChunks?.at(-3);
+  const m = endSegmentChunks?.at(-2);
+  const d = rawDay?.slice(0, 2);
+  const t = new Date(`${ y }-${ m }-${ d }`);
+  const ms = t.getTime();
+
+  if (!y || !m || !d || Number.isNaN(ms))
+    throw new Error(`year, month or day cannot be generated based on "${ link }"`);
+
+  return {
+    timeInMS: ms,
+    year: y,
+    month: m,
+    day: d
+  };
+
+  // if (isLeague === 'league') {
+  //   const obj = {
+  //     timeInMS: 0,
+  //     month: lastSegmentSplit?.at(3) as string,
+  //     year: lastSegmentSplit?.at(2) as string,
+  //     day: lastSegmentSplit?.at(4) as string,
+  //   };
+  //
+  //   obj.timeInMS = new Date(`${obj.year}-${obj.month}-${obj.day}`).getTime();
+  //   return obj;
+  // } else {
+  //   const rawDay = lastSegmentSplit?.at(-1);
+  //   const obj = {
+  //     timeInMS: 0,
+  //     month: lastSegmentSplit?.at(-2) as string,
+  //     year: lastSegmentSplit?.at(-3) as string,
+  //     day: rawDay?.slice(0, 2) as string
+  //   };
+  //
+  //   obj.timeInMS = new Date(`${obj.year}-${obj.month}-${obj.day}`).getTime();
+  //   return obj;
+  // }
 };
 
 /**
