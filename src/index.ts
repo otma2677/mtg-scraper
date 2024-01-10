@@ -74,5 +74,6 @@ export {
 
 export { MTGOTournamentParser } from './tools/mtgo/tournament-parser';
 export { MTGOTournamentScraper } from './tools/mtgo/tournament-scraper';
+export { MTGOTournamentScraper as MTGOTournamentScraperNew } from './tools/mtgo/tournament-scraper-new';
 export { filterer } from './core/filterer';
 export { gatherer } from './core/gatherer';
