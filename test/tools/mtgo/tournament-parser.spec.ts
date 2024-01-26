@@ -8,8 +8,8 @@ import { guardCard, guardDeck, guardFullResult, guardTournament } from '../../..
 /**
  *
  */
-describe('Test tournamentParser', function() {
-  return; // Cannot work anymore because of API changes
+describe.skip('Test tournamentParser', function() {
+  // Cannot work anymore because of API changes
 
   it('Test against modern challenge', async () => {
     const link = 'https://www.mtgo.com/decklist/modern-challenge-2023-04-0112538312';

@@ -8,7 +8,7 @@ import { MTGOTournamentScraper } from '../../../src/tools/mtgo/tournament-scrape
 /**
  * TESTS
  */
-describe('tournamentScraper', function() {
+describe.skip('tournamentScraper', function() {
   this.timeout(5000);
 
   it('tournamentScraper should be an Array.', async () => {
