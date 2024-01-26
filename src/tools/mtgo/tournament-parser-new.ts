@@ -2,14 +2,25 @@
  *
  */
 import { checkURLFormat, checkURLLevelOfPlay, checkURLPlatform, getDateFromLink, getIDFromLink } from '../../core/utils';
-import { zodRawLeagueMTGO, zodRawResultMTGOPayload, zodRawTournamentMTGO } from '../../types/type.zod.daybreak-mtgo';
+import { zodRawResultMTGOPayload } from '../../types/type.zod.daybreak-mtgo';
 
 /**
  *
  */
 export async function MTGOTournamentParser(url: string) {
   const link = await getOriginalLink(url);
+  const bulk = await getBulkData(link);
 
+  return {
+    tournamentLink: url,
+    daybreakLink: link,
+    bulk,
+    format: checkURLFormat(url),
+    level: checkURLLevelOfPlay(url),
+    platform: checkURLPlatform(url),
+    date: getDateFromLink(url),
+    eventID: getIDFromLink(url)
+  };
 }
 
 export async function getBulkData(url: string) {
