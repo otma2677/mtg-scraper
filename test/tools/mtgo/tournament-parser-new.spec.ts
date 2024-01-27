@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { getOriginalLink, getBulkData } from '../../../src/tools/mtgo/tournament-parser-new';
+import { getOriginalLink, getBulkData, MTGOTournamentParser } from '../../../src/tools/mtgo/tournament-parser-new';
 
 /**
  *
@@ -59,7 +59,7 @@ describe('Test tournamentParserNew', function() {
   });
 
   it('Test getBulkData', async function() {
-    this.timeout(100_000);
+    this.timeout(150_000);
 
     for (let i = 0; i < expected.length; i++) {
       await sleep(250);
@@ -82,5 +82,19 @@ describe('Test tournamentParserNew', function() {
         assert.fail(`Cannot parse ${ links[i] }.`);
       }
     }
+  });
+
+  it('Test MTGOTournamentParser', async function() {
+    this.timeout(10_000);
+
+    const link = links[0];
+    const obj = await MTGOTournamentParser(link);
+    const raw = obj.bulk.tournament_cover_page_list;
+
+    assert.equal(obj.eventID, '12608591');
+    if (raw?.length === 1)
+      assert.equal(raw[0].event_id,'12608591');
+    else
+      assert.fail('Not bulk raw data available');
   });
 });
