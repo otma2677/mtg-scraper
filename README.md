@@ -69,16 +69,16 @@ ___
 
 # Functions & Tools
 - MTGO
-  - MTGOTournamentParser
-  - MTGOTournamentScraper
+  - [MTGOTournamentParser](#mtgotournamentparser)
+  - [MTGOTournamentScraper](#mtgotournamentscraper)
 - UTILS
-  - checkURLLevelOfPlay
-  - checkURLFormat
-  - checkURLPlatform
-  - checkFormat
-  - checkPlatform
-  - checkLevelOfPlay
-  - getDateFromLink
+  - [checkURLLevelOfPlay](#checkurllevelofplay)
+  - [checkURLFormat](#checkurlformat)
+  - [checkURLPlatform](#checkurlplatform)
+  - [checkFormat](#checkformat)
+  - [checkPlatform](#checkplatform)
+  - [checkLevelOfPlay](#checklevelofplay)
+  - [getDateFromLink](#getdatefromlink)
 - filterer
 - gatherer
 

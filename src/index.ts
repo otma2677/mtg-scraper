@@ -95,5 +95,10 @@ export { MTGOTournamentParser as deprecatedMTGOTournamentParser } from './tools/
 export { MTGOTournamentScraper as deprecatedMTGOTournamentScraper } from './tools/mtgo/tournament-scraper';
 export { MTGOTournamentScraper } from './tools/mtgo/tournament-scraper-new';
 export { MTGOTournamentParser, getBulkData, getOriginalLink } from './tools/mtgo/tournament-parser-new';
-export { filterer } from './core/filterer';
+export {
+  filterer as filtererDeprecated,
+  archetype,
+  archetypeFilter as filterer,
+  type Archetype
+} from './core/filterer';
 export { gatherer } from './core/gatherer';
