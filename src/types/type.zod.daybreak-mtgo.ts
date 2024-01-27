@@ -27,6 +27,8 @@ export const zodRawTournamentCardMTGO = z.object({
   })
 });
 
+export type TournamentCardMTGO = z.infer<typeof zodRawTournamentCardMTGO>;
+
 export const zodRawTournamentDecklistMTGO = z.object({
   loginid: z.string(),
   tournamentid: z.string(),
@@ -35,6 +37,8 @@ export const zodRawTournamentDecklistMTGO = z.object({
   main_deck: z.array(zodRawTournamentCardMTGO),
   sideboard_deck: z.array(zodRawTournamentCardMTGO)
 });
+
+export type TournamentDecklistMTGO = z.infer<typeof zodRawTournamentDecklistMTGO>;
 
 export const zodRawTournamentStandingMTGO = z.object({
   tournamentid: z.string(),
@@ -47,6 +51,8 @@ export const zodRawTournamentStandingMTGO = z.object({
   opponentgamewinpercentage: z.string().transform(v => Number(v)),
   eliminated: z.union([ z.literal('true'), z.literal('false') ]).transform(v => v === 'true')
 });
+
+export type TournamentStandingMTGO = z.infer<typeof zodRawTournamentStandingMTGO>;
 
 export const zodRawTournamentBracketMTGO = z.object({
   index: z.number(),
@@ -61,6 +67,8 @@ export const zodRawTournamentBracketMTGO = z.object({
     }))
   }))
 });
+
+export type TournamentBracketMTGO = z.infer<typeof zodRawTournamentBracketMTGO>;
 
 export const zodRawTournamentMTGO = z.object({
   event_id: z.string(),
@@ -91,6 +99,8 @@ export const zodRawTournamentMTGO = z.object({
   })
 });
 
+export type TournamentMTGO = z.infer<typeof zodRawTournamentMTGO>;
+
 export const zodRawLeagueCardMTGO = z.object({
   leaguedeckid: z.string(),
   loginplayeventcourseid: z.string(),
@@ -109,6 +119,8 @@ export const zodRawLeagueCardMTGO = z.object({
     colors: z.array(z.string()).optional()
   })
 });
+
+export type LeagueCardMTGO = z.infer<typeof zodRawLeagueCardMTGO>;
 
 export const zodRawLeagueMTGO = z.object({
   playeventid: z.string(),
@@ -131,11 +143,15 @@ export const zodRawLeagueMTGO = z.object({
   }))
 });
 
+export type LeagueMTGO = z.infer<typeof zodRawLeagueMTGO>;
+
 export const zodRawResultMTGOPayload = z.object({
   returned: z.number(),
   league_cover_page_list: z.array(zodRawLeagueMTGO).optional(),
   tournament_cover_page_list: z.array(zodRawTournamentMTGO).optional()
 });
+
+export type ResultMTGOPayload = z.infer<typeof zodRawResultMTGOPayload>;
 
 
 // interface JsonPayloadShape {

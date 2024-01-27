@@ -74,13 +74,21 @@ export {
 
 export {
   zodRawTournamentMTGO,
+  type TournamentMTGO,
   zodRawLeagueMTGO,
+  type LeagueMTGO,
   zodRawTournamentBracketMTGO,
+  type TournamentBracketMTGO,
   zodRawTournamentStandingMTGO,
+  type TournamentStandingMTGO,
   zodRawTournamentDecklistMTGO,
+  type TournamentDecklistMTGO,
   zodRawTournamentCardMTGO,
+  type TournamentCardMTGO,
   zodRawLeagueCardMTGO,
-  zodRawResultMTGOPayload
+  type LeagueCardMTGO,
+  zodRawResultMTGOPayload,
+  type ResultMTGOPayload
 } from './types/type.zod.daybreak-mtgo';
 
 export { MTGOTournamentParser as deprecatedMTGOTournamentParser } from './tools/mtgo/tournament-parser';
