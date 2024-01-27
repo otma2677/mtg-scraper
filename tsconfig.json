@@ -5,7 +5,8 @@
   "exclude": [
     "node_modules",
     ".idea",
-    "test"
+    "test",
+    "doc"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
