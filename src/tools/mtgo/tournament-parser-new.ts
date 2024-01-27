@@ -1,24 +1,45 @@
 /**
  *
  */
-import { checkURLFormat, checkURLLevelOfPlay, checkURLPlatform, getDateFromLink, getIDFromLink } from '../../core/utils';
-import { zodRawResultMTGOPayload } from '../../types/type.zod.daybreak-mtgo';
+import {
+  checkURLFormat,
+  checkURLLevelOfPlay,
+  checkURLPlatform,
+  getDateFromLink,
+  getIDFromLink,
+  formatType as Format,
+  levelOfPlayType as Level,
+  platformType as Platform
+} from '../../core/utils';
+import { zodRawResultMTGOPayload, ResultMTGOPayload } from '../../types/type.zod.daybreak-mtgo';
 
 /**
  *
  */
-export async function MTGOTournamentParser(url: string) {
+interface Output {
+  tournamentLink: string;
+  daybreakLink: string;
+  payload: ResultMTGOPayload;
+  format: Format;
+  level: Level;
+  platform: Platform;
+  date: Date;
+  eventID: string;
+}
+
+export async function MTGOTournamentParser(url: string): Promise<Output> {
   const link = await getOriginalLink(url);
-  const bulk = await getBulkData(link);
+  const payload = await getBulkData(link);
+  const moment = getDateFromLink(url);
 
   return {
     tournamentLink: url,
     daybreakLink: link,
-    bulk,
+    payload,
     format: checkURLFormat(url),
     level: checkURLLevelOfPlay(url),
     platform: checkURLPlatform(url),
-    date: getDateFromLink(url),
+    date: new Date(moment.timeInMS),
     eventID: getIDFromLink(url)
   };
 }

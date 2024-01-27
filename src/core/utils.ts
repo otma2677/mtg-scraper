@@ -11,7 +11,7 @@ export const getIDFromLink = (link: string) => {
   const lastChunk = chunks.at(-1);
 
   if (!lastChunk)
-    return null;
+    throw new Error(`Cannot generate ID from url ${ link }`);
 
   return lastChunk.slice(2, lastChunk.length);
 };
@@ -121,7 +121,7 @@ export const checkFormat = (str: any): str is formatType => {
   );
 };
 
-export const checkURLFormat = (url: string): string => {
+export const checkURLFormat = (url: string): formatType => {
   const possibleTypes = [
     'vintage',
     'legacy',
@@ -135,9 +135,9 @@ export const checkURLFormat = (url: string): string => {
   const currentType = url.split('/').at(-1)?.split('-')[0];
   const isTypeCorrect = possibleTypes.find(t => t === currentType);
 
-  if (isTypeCorrect) return currentType as string;
+  if (isTypeCorrect) return currentType as formatType;
 
-  return 'unknown';
+  throw new Error(`Format does not exists in url ${ url }`);
 };
 
 export type levelOfPlayType =
@@ -167,7 +167,7 @@ export const checkLevelOfPlay = (str: any): str is levelOfPlayType => {
   );
 };
 
-export const checkURLLevelOfPlay = (url: string): string => {
+export const checkURLLevelOfPlay = (url: string): levelOfPlayType => {
   const possibleTypes = [
     'league',
     'preliminary',
@@ -184,15 +184,15 @@ export const checkURLLevelOfPlay = (url: string): string => {
   const currentType = url.split('/').at(-1)?.split('-')[1];
   const isTypeExisting = possibleTypes.find(t => t === currentType);
 
-  if (isTypeExisting) return currentType as string;
+  if (isTypeExisting) return currentType as levelOfPlayType;
 
   if (currentType === 'showcase' || currentType === 'eternal' || currentType === 'super') {
     const secondWord = url.split('/').at(-1)?.split('-')[2];
 
-    return `${currentType}-${secondWord}`;
+    return `${currentType}-${secondWord}` as levelOfPlayType;
   }
 
-  return 'unknown';
+  throw new Error(`Level does not exists in URL ${ url }`);
 };
 
 export type platformType = 'mtgo';
@@ -202,11 +202,11 @@ export const checkPlatform = (str: any): str is platformType => {
     str === 'mtgo'
   );
 };
-export const checkURLPlatform = (url: string): string => {
+export const checkURLPlatform = (url: string): platformType => {
   const newURL = new URL(url);
 
   if (newURL.host === 'mtgo.com' || newURL.host === 'www.mtgo.com')
     return 'mtgo';
-  else
-    return 'unknown';
+
+  throw new Error(`Platform does not exists in url ${ url }`);
 };

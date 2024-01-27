@@ -1,27 +1,24 @@
 {
   "name": "mtg-scraper2",
-  "version": "3.4.1",
-  "description": "Tiny and easy web scraper for Magic the gathering.",
+  "version": "3.5.0",
+  "description": "Tiny and minimal magic the gathering data scraper",
+  "keywords": [ "magic", "mtg", "mtg scraper", "scraper", "magic the gathering" ],
+  "author": "eiwosstdma",
   "license": "ISC License",
-  "author": "eiwosstdma <eiwos.studio@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/eiwosstdma/mtg-scraper"
   },
   "private": false,
   "main": "./dist/index.js",
-  "keywords": [
-    "magic",
-    "mtg"
-  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "ts-node ./src/index.ts",
     "build": "tsc",
     "test:core": "ts-mocha ./test/core/*.spec.ts",
     "test:tools": "ts-mocha ./test/tools/**/*.spec.ts"
-  },
-  "engines": {
-    "node": ">=20.10.0"
   },
   "devDependencies": {
     "@types/jsdom": "^21.1.1",
@@ -31,6 +28,7 @@
     "@typescript-eslint/parser": "^5.48.1",
     "eslint": "^8.31.0",
     "mocha": "^10.2.0",
+    "mtg-scraper2": "^3.5.0",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
     "tsx": "^3.12.2",

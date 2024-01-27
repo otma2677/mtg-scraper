@@ -67,9 +67,9 @@ export {
   checkPlatform,
   checkLevelOfPlay,
   getDateFromLink,
-  formatType,
-  levelOfPlayType,
-  platformType
+  type formatType as Format,
+  type levelOfPlayType as Level,
+  type platformType as Platform
 } from './core/utils';
 
 export {
