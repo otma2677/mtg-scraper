@@ -3,6 +3,7 @@ node_modules
 .env
 test
 src
+scripts
 tsconfig.json
 .eslintrc.js
 examples

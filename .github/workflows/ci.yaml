@@ -2,23 +2,35 @@ name: Node.js test CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
-    strategy:
-      matrix:
-        node-version: [ 20.x ]
+    container:
+      image: node:20-buster-slim
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Checkout reps
+        uses: actions/checkout@v3
+
+      - name: Setup node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm run test
+
+      - name: Install deps
+        run: npm install
+
+      - name: Run core tests
+        run: npm run test:core
+
+      - name: Run tools tests
+        run: npm run test:tools

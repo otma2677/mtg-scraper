@@ -17,7 +17,8 @@
   "scripts": {
     "dev": "ts-node ./src/index.ts",
     "build": "tsc",
-    "test": "ts-mocha ./test/**/*.spec.ts"
+    "test:core": "ts-mocha ./test/core/*.spec.ts",
+    "test:tools": "ts-mocha ./test/tools/**/*.spec.ts"
   },
   "engines": {
     "node": ">=20.10.0"
