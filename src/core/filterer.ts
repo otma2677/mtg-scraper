@@ -48,8 +48,51 @@ export type Archetype = z.infer<typeof archetype>;
 export function archetypeFilter(archetype: Archetype, list: any, value = 3) {
   let includedCards = 0;
   let excludedCards = 0;
+  let cards: Array<{ name: string; quantity: number; }>;
 
-  for (const card of list.main) {
+  /**
+   * Adapt cards format depending on if it comes from
+   * MTGODecklistCache or mtg-scraper2 or from legacy-mtg-scraper2
+   */
+  if (list['main']) {
+    const gotNameProp =
+      typeof list['main'][0].name === 'string' &&
+      typeof list['main'][0].quantity === 'number';
+    if (gotNameProp)
+      cards = list['main'];
+    else
+      return null;
+
+  } else if (list['main_deck']) {
+    const gotSubNameProp = typeof list['main_deck'][0]['card_attributes'].card_name === 'string';
+    if (gotSubNameProp) {
+      cards = list['main_deck'].map((card: any) => {
+        return {
+          name: card['card_attributes'].card_name as string,
+          quantity: Number(card.qty) as number
+        };
+      });
+    } else
+      return null;
+  } else if (list['Mainboard']) {
+    const subName = typeof list['Mainboard'][0]['CardName'] === 'string';
+    if (subName) {
+      cards = list['Mainboard'].map((card: any) => {
+        return {
+          name: card['CardName'] as string,
+          quantity: card['Count'] as number
+        };
+      });
+    } else
+      return null;
+  } else
+    return null;
+
+
+  /**
+   * Find matches
+   */
+  for (const card of cards) {
     if (!archetype.matches.including_cards)
       continue;
 

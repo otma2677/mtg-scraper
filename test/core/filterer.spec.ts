@@ -2,13 +2,61 @@
  *
  */
 import assert from 'node:assert';
-import { filterer } from '../../src/core/filterer';
+import { filterer, archetypeFilter, Archetype } from '../../src/core/filterer';
 import { IDeck, IFilter } from '../../src/core/types';
 
 /**
  *
  */
-describe('Filterer function', () => {
+describe('archetypeFilter as Filterer Function', () => {
+  const archetype: Archetype = {
+    name: 'someDeckYes',
+    matches: {
+      including_cards: [
+        { name: 'hello' },
+        { name: 'hella' },
+        { name: 'helli' }
+      ]
+    }
+  };
+
+  const listFromOldMtgScraper2 = {
+    main: [
+      { name: 'hello', quantity: 1 },
+      { name: 'hella', quantity: 2 },
+      { name: 'helli', quantity: 2 },
+    ]
+  };
+
+  const listFromDaybreak = {
+    main_deck: [
+      { qty: 2, card_attributes: { card_name: 'hello' } },
+      { qty: 4, card_attributes: { card_name: 'hella' } },
+      { qty: 4, card_attributes: { card_name: 'helle' } },
+    ]
+  };
+
+  const listFromMTGODecklistCache = {
+    Mainboard: [
+      { Count: 4, CardName: 'hilli' },
+      { Count: 77, CardName: 'hullu' }
+    ]
+  };
+
+  it('Test that Old MTGScraper api Works', function () {
+    assert.equal(archetypeFilter(archetype, listFromOldMtgScraper2), archetype.name);
+  });
+
+  it('Test that daybreak api Works', function () {
+    assert.equal(archetypeFilter(archetype, listFromDaybreak), null);
+  });
+
+  it('Test that MTGODecklistCache api Works', function () {
+    assert.equal(archetypeFilter(archetype, listFromMTGODecklistCache), null);
+  });
+});
+
+describe('Legacy (deprecated) Filterer function', () => {
   const deck: IDeck = {
     login_id: 'afkbzeifezf',
     tournament_name: 'hello',
