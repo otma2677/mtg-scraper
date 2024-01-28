@@ -79,8 +79,8 @@ ___
   - [checkPlatform](#checkplatform)
   - [checkLevelOfPlay](#checklevelofplay)
   - [getDateFromLink](#getdatefromlink)
-- filterer
-- gatherer
+- CORE
+  - [filterer](#filterer)
 
 ## MTGO
 ### MTGOTournamentParser
@@ -104,6 +104,8 @@ const obj = await MTGOTournamentParser('link-to-a-mtgo-tournament') as {
   eventID: string;
 };
 
+await saveMyObjectToADatabaseOrFileOrWhatever(obj);
+
 /**
  * You get back an object that you can directly stringify if you wish, or
  * cut the object in chunks to put into a DB such as MySQL or PostgreSQL
@@ -121,8 +123,11 @@ const arr = await MTGOTournamentScraper(today) as Array<string>;
 
 /**
  * You get back an array of links (string) with links being
- * all tournaments base MTGO links
+ * all tournaments of MTGO of the current month and year.
  */
+for (const tournament of arr) {
+  /*** Do something with the tournament string (the link) */
+}
 
 ```
 
@@ -136,7 +141,7 @@ import {
 const link = 'https://www.mtgo.com/decklist/pauper-challenge-32-2024-01-2712609085';
 const result = checkURLLevelOfPlay(link);
 
-console.log(result); // challenge
+console.log(result); // "challenge"
 
 ```
 
@@ -151,7 +156,7 @@ import {
 const link = 'https://www.mtgo.com/decklist/pauper-challenge-32-2024-01-2712609085';
 const result = checkURLFormat(link);
 
-console.log(result); // pauper
+console.log(result); // "pauper"
 ```
 
 If the format is unknown, the function will throw.
@@ -165,7 +170,7 @@ import {
 const link = 'https://www.mtgo.com/decklist/pauper-challenge-32-2024-01-2712609085';
 const result = checkURLPlatform(link);
 
-console.log(result); // mtgo
+console.log(result); // "mtgo"
 ```
 
 If the platform is unknown, the function will throw.
@@ -244,17 +249,23 @@ console.log(result); // { timeInMS: number; year: string; month: string; day: st
 
 ```
 
-## Filterer
-To generate names of archetype, given a certain list, you can use the "filterer"
-helper function to do so.
+## Core
+### Filterer
+To generate names of archetype on the fly, you can use the filterer"helper 
+function. There is three shape for the lists, depending on where it comes from,
+and a single kind of archetype signature. (You can find their definition in  
+[types](#types))
 
-Archetypes && the list shape are given in the type section.
 ```typescript
 import { filterer, type Archetype } from 'mtg-scraper2';
 
-const archetype: Archetype = { /*** ... */ };
-const list:  = { /*** ... */ };
+const archetype: Archetype = { name: 'weird name bro', /*** the rest ... */ };
+const list: unknown = { /*** ... */ };
+
+const archetypeName = filterer(archetype, list); // It returns null if no archetype was found
+console.log(archetypeName); // "weird name bro"
 ```
+
 ___
 
 ## Types
