@@ -243,6 +243,18 @@ const result = getDateFromLink(link);
 console.log(result); // { timeInMS: number; year: string; month: string; day: string; }
 
 ```
+
+## Filterer
+To generate names of archetype, given a certain list, you can use the "filterer"
+helper function to do so.
+
+Archetypes && the list shape are given in the type section.
+```typescript
+import { filterer, type Archetype } from 'mtg-scraper2';
+
+const archetype: Archetype = { /*** ... */ };
+const list:  = { /*** ... */ };
+```
 ___
 
 ## Types
