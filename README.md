@@ -581,5 +581,32 @@ any other kind of mtgo event will be in `tournament_cover_page_list`.
 
 ## Utils type
 ### Platform
+```typescript
+export type Platform = 'mtgo';
+```
+
 ### Level
+```typescript
+export type Level =
+  'league' |
+  'preliminary' |
+  'challenge' |
+  'premier' |
+  'showcase-challenge' |
+  'showcase-qualifier' |
+  'showcase-open' |
+  'eternal-weekend' |
+  'super-qualifier' |
+  'last-chance';
+```
 ### Format
+```typescript
+export type Format =
+  'vintage' |
+  'legacy' |
+  'modern' |
+  'pioneer' |
+  'standard' |
+  'pauper' |
+  'limited';
+```
