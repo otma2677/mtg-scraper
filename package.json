@@ -1,6 +1,6 @@
 {
   "name": "mtg-scraper2",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "description": "Tiny and minimal magic the gathering data scraper",
   "keywords": [ "magic", "mtg", "mtg scraper", "scraper", "magic the gathering" ],
   "author": "eiwosstdma",
