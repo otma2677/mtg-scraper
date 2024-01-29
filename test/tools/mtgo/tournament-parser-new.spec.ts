@@ -48,7 +48,7 @@ describe('Test tournamentParserNew', function() {
   ];
 
   it('Test getOriginalLink', async function() {
-    this.timeout(10_000);
+    this.timeout(20_000);
 
     for (let i = 0; i < links.length; i++) {
       await sleep(250);
@@ -85,11 +85,11 @@ describe('Test tournamentParserNew', function() {
   });
 
   it('Test MTGOTournamentParser', async function() {
-    this.timeout(10_000);
+    this.timeout(15_000);
 
     const link = links[0];
     const obj = await MTGOTournamentParser(link);
-    const raw = obj.bulk.tournament_cover_page_list;
+    const raw = obj.payload.tournament_cover_page_list;
 
     assert.equal(obj.eventID, '12608591');
     if (raw?.length === 1)
