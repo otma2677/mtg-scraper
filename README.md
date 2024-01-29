@@ -68,10 +68,10 @@ import { MTGOTournamentScraper, MTGOTournamentParser } from 'mtg-scraper2';
 ___
 
 # Functions & Tools
-- MTGO
+- [MTGO](#mtgo)
   - [MTGOTournamentParser](#mtgotournamentparser)
   - [MTGOTournamentScraper](#mtgotournamentscraper)
-- UTILS
+- [UTILS](#utils)
   - [checkURLLevelOfPlay](#checkurllevelofplay)
   - [checkURLFormat](#checkurlformat)
   - [checkURLPlatform](#checkurlplatform)
@@ -79,7 +79,7 @@ ___
   - [checkPlatform](#checkplatform)
   - [checkLevelOfPlay](#checklevelofplay)
   - [getDateFromLink](#getdatefromlink)
-- CORE
+- [CORE](#core)
   - [filterer](#filterer)
 
 ## MTGO
@@ -266,19 +266,320 @@ const archetypeName = filterer(archetype, list); // It returns null if no archet
 console.log(archetypeName); // "weird name bro"
 ```
 
+An example archetype in JSON format;
+```json
+{
+  "name": "Rakdos Midrange",
+  "matches": {
+    "including_cards": [
+      { "name": "Bloodtithe Harvester" },
+      { "name": "Fatal Push" },
+      { "name": "Thoughtseize" },
+      { "name": "Fable of the Mirror-Breaker" },
+      { "name": "Blood Crypt" }
+    ]
+  }
+}
+```
+
+By default, you need 3 matching card for the filterer function to validate an archetype. 
+But the function signature allows a third parameter where you can change the 
+value of that.
+
+```typescript
+import { filterer, type Archetype } from 'mtg-scraper2';
+
+const archetype: Archetype = { name: 'weird name bro', /*** the rest ... */ };
+const list: unknown = { /*** ... */ };
+
+const archetypeName = filterer(archetype, list, 5);
+
+/**
+ * Now, the archetype need at least 5 "including_cards" and the 
+ * list should have the five to be named the same way.
+ */
+
+```
+
 ___
 
-## Types
-- Zod type (with validation schemas (DTO))
-  - zodRawTournamentMTGO
-  - zodRawLeagueMTGO
-  - zodRawTournamentBracketMTGO
-  - zodRawTournamentStandingMTGO
-  - zodRawTournamentDecklistMTGO
-  - zodRawTournamentCardMTGO
-  - zodRawLeagueCardMTGO
-  - zodRawResultMTGOPayload
-- UTILS
-  - Platform
-  - Level
-  - Format
+# Types
+- [Zod type (Schema validation)](#zod-type)
+  - [TournamentBracketMTGO](#tournamentbracketmtgo)
+  - [TournamentStandingMTGO](#tournamentstandingmtgo)
+  - [TournamentDecklistMTGO](#tournamentdecklistmtgo)
+  - [TournamentCardMTGO](#tournamentcardmtgo)
+  - [TournamentMTGO](#tournamentmtgo)
+  - [LeagueCardMTGO](#leaguecardmtgo)
+  - [LeagueMTGO](#leaguemtgo)
+  - [ResultMTGOPayload](#resultmtgopayload)
+- [Utils type](#utils-type)
+  - [Platform](#platform)
+  - [Level](#level)
+  - [Format](#format)
+
+## Zod type
+The following types and schemas are shaped based upon the output of MTGO events.
+
+
+### TournamentBracketMTGO
+Using Zod schema, you can validate an unknown object with `zodRawTournamentBracketMTGO` 
+to obtain the following interface.
+
+```typescript
+import { zodRawTournamentBracketMTGO } from 'mtg-scraper2';
+
+const obj: unknown = { /*** ... */ };
+const objShaped = zodRawTournamentBracketMTGO.parse(obj); // throw if not valid
+
+```
+
+The shape of a Bracket scraped from MTGO.
+
+```typescript
+export interface TournamentBracketMTGO {
+  index: number;
+  matches: Array<{
+    players: Array<{
+      loginid: number;
+      player: string;
+      seeding: number;
+      wins: number;
+      losses: number;
+      winner: boolean;
+    }>;
+  }>;
+}
+```
+
+### TournamentStandingMTGO
+Using Zod schema, you can validate an unknown object with `zodRawTournamentStandingMTGO`
+to obtain the following interface.
+
+```typescript
+import { zodRawTournamentStandingMTGO } from 'mtg-scraper2';
+
+const obj: unknown = { /*** ... */ };
+const objShaped = zodRawTournamentStandingMTGO.parse(obj); // throw if not valid
+
+```
+
+The shape of a Standing scraped from MTGO.
+
+```typescript
+export interface TournamentStandingMTGO {
+  tournamentid: string;
+  loginid: string;
+  login_name: string;
+  rank: number;
+  score: number;
+  opponentmatchwinpercentage: number;
+  gamewinpercentage: number;
+  opponentgamewinpercentage: number;
+  eliminated: boolean;
+}
+```
+
+### TournamentDecklistMTGO
+Using Zod schema, you can validate an unknown object with `zodRawTournamentDecklistMTGO`
+to obtain the following interface.
+
+```typescript
+import { zodRawTournamentDecklistMTGO } from 'mtg-scraper2';
+
+const obj: unknown = { /*** ... */ };
+const objShaped = zodRawTournamentDecklistMTGO.parse(obj); // throw if not valid
+
+```
+
+The shape of a Decklist scraped from MTGO.
+
+```typescript
+export interface TournamentDecklistMTGO {
+  loginid: string;
+  tournamentid: string;
+  decktournamentid: string;
+  player: string;
+  main_deck: Array<TournamentCardMTGO>;
+  sideboard_deck: Array<TournamentCardMTGO>
+}
+```
+
+### TournamentCardMTGO
+Using Zod schema, you can validate an unknown object with `zodRawTournamentCardMTGO`
+to obtain the following interface.
+
+```typescript
+import { zodRawTournamentCardMTGO } from 'mtg-scraper2';
+
+const obj: unknown = { /*** ... */ };
+const objShaped = zodRawTournamentCardMTGO.parse(obj); // throw if not valid
+
+```
+
+The shape of a Tournament Card scraped from MTGO.
+
+```typescript
+export interface TournamentCardMTGO {
+  decktournamentid: string;
+  docid: string;
+  qty: number;
+  sideboard: boolean;
+  card_attributes: {
+    digitalobjectcatalogid?: string;
+    card_name: string;
+    cost?: number;
+    rarity?: string;
+    color?: string;
+    cardset?: string;
+    card_type?: string;
+    colors?: string;
+  }
+}
+```
+
+### TournamentMTGO
+Using Zod schema, you can validate an unknown object with `zodRawTournamentMTGO`
+to obtain the following interface.
+
+```typescript
+import { zodRawTournamentMTGO } from 'mtg-scraper2';
+
+const obj: unknown = { /*** ... */ };
+const objShaped = zodRawTournamentMTGO.parse(obj); // throw if not valid
+
+```
+
+The shape of a Tournament scraped from MTGO.
+
+```typescript
+export interface TournamentMTGO {
+  event_id: string;
+  description: string;
+  starttime: Date;
+  format: string;
+  type: string;
+  site_name: string;
+  decklists: Array<TournamentDecklistMTGO>;
+  standings: Array<TournamentStandingMTGO>;
+  brackets: Array<TournamentBracketMTGO>;
+  final_rank?: Array<{
+    tournamentid: string;
+    loginid: string;
+    rank: number;
+    roundnumber: number;
+  }>;
+  winloss: Array<{
+    tournamentid: string;
+    loginid: string;
+    losses: number;
+    wins: number;
+  }>;
+  player_count: {
+    tournamentid: string;
+    players: number;
+    queued_players: number;
+  };
+}
+```
+
+### LeagueCardMTGO
+Using Zod schema, you can validate an unknown object with `zodRawLeagueCardMTGO`
+to obtain the following interface.
+
+```typescript
+import { zodRawLeagueCardMTGO } from 'mtg-scraper2';
+
+const obj: unknown = { /*** ... */ };
+const objShaped = zodRawLeagueCardMTGO.parse(obj); // throw if not valid
+
+```
+
+The shape of a League card scraped from MTGO.
+
+```typescript
+export interface LeagueCardMTGO {
+  leaguedeckid: string;
+  loginplayeventcourseid: string;
+  docid: string;
+  qty: number;
+  sideboard: boolean;
+  card_attributes: {
+    digitalobjectcatalogid?: string;
+    card_name: string;
+    cost?: number;
+    rarity?: string;
+    color?: string;
+    cardset?: string;
+    card_type?: string;
+    colors?: string;
+  }
+}
+```
+
+### LeagueMTGO
+Using Zod schema, you can validate an unknown object with `zodRawLeagueMTGO`
+to obtain the following interface.
+
+```typescript
+import { zodRawLeagueMTGO } from 'mtg-scraper2';
+
+const obj: unknown = { /*** ... */ };
+const objShaped = zodRawLeagueMTGO.parse(obj); // throw if not valid
+
+```
+
+The shape of a League scraped from MTGO.
+
+```typescript
+export interface LeagueMTGO {
+  playeventid: string;
+  name: string;
+  publish_date: string;
+  instance_id: string;
+  site_name: string;
+  decklists: Array<{
+    loginplayeventcourseid: string;
+    loginid: string;
+    instance_id: string;
+    player: string;
+    main_deck: Array<LeagueCardMTGO>;
+    sideboard_deck: Array<LeagueCardMTGO>;
+    wins: {
+      loginplayeventcourseid: string;
+      wins: number;
+      losses: number;
+    }
+  }>;
+}
+```
+
+### ResultMTGOPayload
+Using Zod schema, you can validate an unknown object with `zodRawResultMTGOPayload`
+to obtain the following interface.
+
+```typescript
+import { zodRawResultMTGOPayload } from 'mtg-scraper2';
+
+const obj: unknown = { /*** ... */ };
+const objShaped = zodRawResultMTGOPayload.parse(obj); // throw if not valid
+
+```
+
+The shape of a full payload of a scraped MTGO tournament (the output of MTGOTournamentParser)
+
+```typescript
+export interface ResultMTGOPayload {
+  returned: number; // 0 or 1
+  league_cover_page_list?: Array<LeagueMTGO>; // The league result is at index 0
+  tournament_cover_page_list?: Array<TournamentMTGO>; // The tournament result is at index 0
+}
+```
+
+If the tournament is a league, it is always in the `league_cover_page_list`, otherwise
+any other kind of mtgo event will be in `tournament_cover_page_list`.
+
+## Utils type
+### Platform
+### Level
+### Format

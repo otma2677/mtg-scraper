@@ -18,12 +18,15 @@ export const zodRawTournamentCardMTGO = z.object({
   card_attributes: z.object({
     digitalobjectcatalogid: z.string().optional(),
     card_name: z.string(),
-    cost: z.string().optional(),
+    cost: z.string().transform(v => Number(v)).optional(),
     rarity: z.string().optional(),
     color: z.string().optional(),
     cardset: z.string().optional(),
     card_type: z.string().optional(),
-    colors: z.string().array().optional()
+    colors: z.string()
+      .array()
+      .transform(v => v.toString())
+      .optional()
   })
 });
 
