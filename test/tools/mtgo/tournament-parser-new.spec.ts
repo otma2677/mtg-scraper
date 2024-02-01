@@ -78,8 +78,9 @@ describe('Test tournamentParserNew', function() {
           assert.equal(result.league_cover_page_list[0].playeventid, eventID);
         if (result.tournament_cover_page_list)
           assert.equal(result.tournament_cover_page_list[0].event_id, eventID);
+
       } catch (err) {
-        assert.fail(`Cannot parse ${ links[i] }.`);
+        assert.fail(`Cannot parse ${ links[i] }\n${ err }`);
       }
     }
   });
