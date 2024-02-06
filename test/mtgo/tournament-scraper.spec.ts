@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert';
 
-import { MTGOTournamentScraper } from '../../../src/tools/mtgo/tournament-scraper';
+import { MTGOTournamentScraper } from '../../src/mtgo/tournament-scraper';
 
 /**
  * TESTS

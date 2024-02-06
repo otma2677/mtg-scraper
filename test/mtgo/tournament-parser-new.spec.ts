@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { getOriginalLink, getBulkData, MTGOTournamentParser } from '../../../src/tools/mtgo/tournament-parser-new';
+import { getOriginalLink, getBulkData, MTGOTournamentParser } from '../../src/mtgo/tournament-parser-new';
 
 /**
  *

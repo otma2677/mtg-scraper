@@ -10,8 +10,8 @@ import {
   formatType as Format,
   levelOfPlayType as Level,
   platformType as Platform
-} from '../../core/utils';
-import { zodRawResultMTGOPayload, ResultMTGOPayload } from '../../types/type.zod.daybreak-mtgo';
+} from '../core/utils';
+import { zodRawResultMTGOPayload, ResultMTGOPayload } from './type.zod.daybreak-mtgo';
 
 /**
  *

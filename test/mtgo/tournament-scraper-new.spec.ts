@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { MTGOTournamentScraper } from '../../../src/tools/mtgo/tournament-scraper-new';
+import { MTGOTournamentScraper } from '../../src/mtgo/tournament-scraper-new';
 
 /**
  *

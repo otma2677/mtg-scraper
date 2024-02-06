@@ -89,12 +89,12 @@ export {
   type LeagueCardMTGO,
   zodRawResultMTGOPayload,
   type ResultMTGOPayload
-} from './types/type.zod.daybreak-mtgo';
+} from './mtgo/type.zod.daybreak-mtgo';
 
-export { MTGOTournamentParser as deprecatedMTGOTournamentParser } from './tools/mtgo/tournament-parser';
-export { MTGOTournamentScraper as deprecatedMTGOTournamentScraper } from './tools/mtgo/tournament-scraper';
-export { MTGOTournamentScraper } from './tools/mtgo/tournament-scraper-new';
-export { MTGOTournamentParser, getBulkData, getOriginalLink } from './tools/mtgo/tournament-parser-new';
+export { MTGOTournamentParser as deprecatedMTGOTournamentParser } from './mtgo/tournament-parser';
+export { MTGOTournamentScraper as deprecatedMTGOTournamentScraper } from './mtgo/tournament-scraper';
+export { MTGOTournamentScraper } from './mtgo/tournament-scraper-new';
+export { MTGOTournamentParser, getBulkData, getOriginalLink } from './mtgo/tournament-parser-new';
 export {
   filterer as filtererDeprecated,
   archetype,

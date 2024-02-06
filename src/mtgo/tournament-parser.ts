@@ -1,9 +1,9 @@
 /**
  * IMPORTS
  */
-import { superFetch, checkURLFormat, checkURLLevelOfPlay } from '../../core/utils';
-import { Card, Deck, FullResult, Tournament, RawDeckList, RawResult, fullResultSchema, deckSchema, rawResultSchema } from '../../core/types_schemas';
-import { gatherer } from '../../core/gatherer';
+import { superFetch, checkURLFormat, checkURLLevelOfPlay } from '../core/utils';
+import { Card, Deck, FullResult, Tournament, RawDeckList, RawResult, fullResultSchema, deckSchema, rawResultSchema } from '../core/types_schemas';
+import { gatherer } from '../core/gatherer';
 
 /**
  *

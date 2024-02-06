@@ -2,7 +2,7 @@
  *
  */
 import { JSDOM } from 'jsdom';
-import { superFetch } from '../../core/utils';
+import { superFetch } from '../core/utils';
 
 /**
  *

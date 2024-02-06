@@ -2,8 +2,8 @@
  *
  */
 import assert from 'node:assert';
-import { MTGOTournamentParser } from '../../../src/tools/mtgo/tournament-parser';
-import { guardCard, guardDeck, guardFullResult, guardTournament } from '../../../src/core/guards';
+import { MTGOTournamentParser } from '../../src/mtgo/tournament-parser';
+import { guardCard, guardDeck, guardFullResult, guardTournament } from '../../src/core/guards';
 
 /**
  *
