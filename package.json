@@ -18,8 +18,8 @@
     "dev": "ts-node ./src/index.ts",
     "build": "tsc",
     "test:core": "ts-mocha ./test/core/*.spec.ts",
-    "test:tools": "ts-mocha ./test/tools/**/*.spec.ts",
-    "test": "npm run test:core && npm run test:tools"
+    "test:mtgo": "ts-mocha ./test/mtgo/*.spec.ts",
+    "test": "npm run test:core && npm run test:mtgo"
   },
   "devDependencies": {
     "@types/jsdom": "^21.1.1",
